@@ -5,6 +5,7 @@ import './Home.css'; // Import the CSS file for styling
 import ClearIcon from '@mui/icons-material/Clear';
 
 
+
 export const handleAddPayableInDialog = (payableName, payableAmount, payables, setPayables, setSnackbarMessage, setSnackbarSeverity, setSnackbarOpen) => {
   if (payableName && payableAmount) {
     const updatedPayables = [...payables, { name: payableName, amount: payableAmount }];
@@ -30,21 +31,7 @@ export const handleAddPayableInDialog = (payableName, payableAmount, payables, s
 
 const Home = () => {
 
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      const confirmationMessage = 'Are you sure you want to leave? Your changes may not be saved.';
-      e.returnValue = confirmationMessage; // Standard for most browsers
-      return confirmationMessage; // For some older browsers
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-  
-  const navigate = useNavigate();
+ const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
   const [payables, setPayables] = useState([]);

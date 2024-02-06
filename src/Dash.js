@@ -13,20 +13,6 @@ import { handleAddPayableInDialog } from './Home'; // Ensure the correct path to
 
 const Dash = () => {
 
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      const confirmationMessage = 'Are you sure you want to leave? Your changes may not be saved.';
-      e.returnValue = confirmationMessage; // Standard for most browsers
-      return confirmationMessage; // For some older browsers
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-  
   const [username, setUsername] = useState('');
   const [payables, setPayables] = useState([]);
   const [lastClickedDate, setLastClickedDate] = useState('');
