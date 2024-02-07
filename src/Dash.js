@@ -83,10 +83,17 @@ const Dash = () => {
   const handleUndo = (index) => {
     const updatedPayables = [...payables];
     updatedPayables[index].amount = updatedPayables[index].originalAmount;
+  
+    // Update the payment status based on the new amount
+    updatedPayables[index].colorFormatStatus = getPaymentStatus(
+      updatedPayables[index].amount,
+      updatedPayables[index].originalAmount
+    );
+  
     setPayables(updatedPayables);
     localStorage.setItem('payables', JSON.stringify(updatedPayables));
   };
-
+  
   const handleDelete = (index) => {
     const updatedPayables = [...payables];
     updatedPayables.splice(index, 1);

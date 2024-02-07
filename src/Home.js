@@ -4,25 +4,58 @@ import { Button, TextField, Snackbar, Alert } from '@mui/material';
 import './Home.css';
 import ClearIcon from '@mui/icons-material/Clear';
 
-export const handleAddPayableInDialog = (payableName, payableAmount, payables, setPayables, setSnackbarMessage, setSnackbarSeverity, setSnackbarOpen) => {
-    if (payableName && payableAmount) {
-      const updatedPayables = [...payables, { name: payableName, amount: payableAmount }];
+const divideAmountInHalf = (amount) => {
+  return amount / 2;
+};
+
+export const handleAddPayableInDialog = (
+  payableName,
+  payableAmount,
+  payables,
+  setPayables,
+  setSnackbarMessage,
+  setSnackbarSeverity,
+  setSnackbarOpen
+) => {
+  if (payableName && payableAmount) {
+    const numericAmount = parseFloat(payableAmount.replace(/,/g, ''), 10);
+
+    if (!isNaN(numericAmount)) {
+      const newPayable = {
+        name: payableName,
+        amount: numericAmount,
+        originalAmount: numericAmount,
+      };
+
+      // Divide the amount in half
+      const halfAmount = divideAmountInHalf(numericAmount);
+
+      // Create a new payable with half the amount
+      const halfPayable = {
+        name: payableName + ' (Half)',
+        amount: halfAmount,
+        originalAmount: numericAmount,
+      };
+
+      const updatedPayables = [...payables, newPayable, halfPayable];
       setPayables(updatedPayables);
       localStorage.setItem('payables', JSON.stringify(updatedPayables));
-  
-      // Additional logic if needed
-  
+
       // Show success snackbar
       setSnackbarMessage('Biller added successfully!');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
-      window.location.reload();
     } else {
-      setSnackbarMessage(`Please enter Biller Name and Amount.`);
+      setSnackbarMessage(`Please enter a valid amount.`);
       setSnackbarOpen(true);
       setSnackbarSeverity('error');
     }
-  };
+  } else {
+    setSnackbarMessage(`Please enter Biller Name and Amount.`);
+    setSnackbarOpen(true);
+    setSnackbarSeverity('error');
+  }
+};
   
 
 const Home = () => {
@@ -63,14 +96,21 @@ const Home = () => {
   const savePayable = () => {
     const numericAmount = parseFloat(payableAmount.replace(/,/g, ''), 10);
     const newPayable = { amount: numericAmount, originalAmount: numericAmount, name: payableName };
-    setPayables([...payables, newPayable]);
+  
+    setPayables((prevPayables) => {
+      const updatedPayables = [...prevPayables, newPayable];
+      localStorage.setItem('payables', JSON.stringify(updatedPayables));
+      return updatedPayables;
+    });
+  
     setPayableAmount('');
     setPayableName('');
-    localStorage.setItem('payables', JSON.stringify([...payables, newPayable]));
+  
     setSnackbarMessage('Biller added successfully!');
     setSnackbarSeverity('success');
     setSnackbarOpen(true);
   };
+  
 
   const deletePayable = (index) => {
     const updatedPayables = [...payables];
