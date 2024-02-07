@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Snackbar, Alert } from '@mui/material';
 import './Home.css';
 import ClearIcon from '@mui/icons-material/Clear';
+import AppIcon from '@mui/icons-material/AppRegistration';
 
 
 
@@ -156,9 +157,9 @@ const Home = () => {
     <div className="home-container">
       <div className="fixed-section">
         <div className="header">
-          <p>
-            <img src="/2685032.png" alt="" style={{ height: '25px' }} /> <strong>Spendify</strong>
-          </p>
+       
+        <p style={{alignItems:'center', display:'flex', alignContent:'center'}}> <AppIcon style={{ fontSize: 30, color: 'blue'}} /><strong>Spendify</strong></p>
+        
         </div>
         <div className="input-section">
           <label>Username:</label>

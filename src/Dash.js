@@ -23,6 +23,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useNavigate } from 'react-router-dom';
 import './Dash.css';
 import { handleAddPayableInDialog } from './Home';
+import AppIcon from '@mui/icons-material/AppRegistration';
 
 const Dash = () => {
   const [username, setUsername] = useState('');
@@ -156,7 +157,7 @@ const Dash = () => {
     } else if (amount === originalAmount / 2) {
       return 'Half Paid';
     } else {
-      return 'Not Paid';
+      return 'Unpaid';
     }
   };
 
@@ -168,16 +169,15 @@ const Dash = () => {
     <div className="dashboard-container">
       <div className="fixed-section">
         <div className="header">
-          <p>
-            <img src="/2685032.png" alt="" style={{ height: '25px' }} /> <strong>Spendify</strong>
-          </p>
+        <p style={{alignItems:'center', display:'flex', alignContent:'center'}}> <AppIcon style={{ fontSize: 30, color: 'blue'}} /><strong>Spendify</strong></p>
+        
 
           <IconButton onClick={() => setDrawerOpen(true)} style={{ marginLeft: 'auto' }}>
             <MenuIcon />
           </IconButton>
         </div>
         <div className="header" style={{ marginTop: '2px' }}>
-          <p style={{ fontSize: 'large', fontWeight: 'bold' }}>{`Hi, ${username}!`}</p>
+          <p style={{ fontSize: 'large', fontWeight: 'bold', color:'black' }}>{`Hi, ${username}!`}</p>
         </div>
         <p className="last-payment">{`Last Payment: ${lastClickedDate}`}</p>
       </div>
@@ -203,7 +203,7 @@ const Dash = () => {
                   fontWeight: 'bold',
                   fontSize: 'medium',
                   margin: '0',
-                  color: p.amount !== p.originalAmount ? 'red' : 'black', // Change text color if amount is different
+                  color: p.amount !== p.originalAmount ? '#f50057' : 'gray', // Change text color if amount is different
                 }}
               >{`${p.name}`}</p>
               <p style={{ fontSize: 'small', margin: '0' }}>{`₱ ${p.amount}`}</p>
@@ -211,7 +211,7 @@ const Dash = () => {
                 style={{
                   fontSize: 'small',
                   margin: '0',
-                  color: p.amount !== p.originalAmount ? 'red' : 'black', // Change text color if amount is different
+                  color: p.amount !== p.originalAmount ? '#f50057' : 'gray', // Change text color if amount is different
                 }}
               >{p.colorFormatStatus}</p>
             </div>

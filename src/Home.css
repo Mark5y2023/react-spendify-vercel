@@ -19,12 +19,25 @@
   z-index: 1; /* Ensure it's above the scrollable section */
 }
 
+
+
 .header {
-  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  width: 100%;
   font-weight: bold;
   font-size: x-large;
-  margin-top: -40px;
+  margin-top: -25px;
+  color: blue;
+ 
+ 
 }
+
+.header strong {
+  margin-left: 10px; /* Adjust the margin as needed */
+}
+
+
   .header2 {
     align-self: flex-start;
     font-weight: bold;

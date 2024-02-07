@@ -1,12 +1,17 @@
 // SplashScreen.js
+
 import React from 'react';
-import './SplashScreen.css'; // Create this CSS file for styling
+import './SplashScreen.css'; // Include your styling here
+import AppIcon from '@mui/icons-material/AppRegistration';
+
 
 const SplashScreen = () => {
   return (
     <div className="splash-screen">
-      {/* Animation or any other content for the splash screen */}
-      <div className="animation"></div>
+    
+          <AppIcon style={{ fontSize: 30, color: 'blue', alignContent:'center', alignItems:'center  ' }} /><strong>Spendify</strong>
+              
+      {/* Additional content goes here */}
     </div>
   );
 };
