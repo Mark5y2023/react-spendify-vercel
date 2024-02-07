@@ -144,17 +144,25 @@ const Dash = () => {
   const handleNewMonth = () => {
     setDrawerOpen(false);
     const shouldProceed = window.confirm('Are you sure you want to start a new month? This will reset all payables.');
-
+  
     if (shouldProceed) {
       const updatedPayables = payables.map(p => ({
         ...p,
         amount: p.originalAmount,
         colorFormatStatus: getPaymentStatus(p.originalAmount, p.originalAmount), // Reset colorFormatStatus
       }));
+  
       setPayables(updatedPayables);
       localStorage.setItem('payables', JSON.stringify(updatedPayables));
+  
+      // Reset lastClickedDate
+      setLastClickedDate('');
+  
+      handleSnackbarOpen('New month started. All payables reset.');
+      setSnackbarSeverity('info');
     }
   };
+  
 
   const handleAdd = () => {
     setDialogOpen(true);
