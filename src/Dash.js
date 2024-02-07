@@ -351,8 +351,9 @@ const Dash = () => {
   <DialogTitle style={{ fontWeight: 'bold' }}>About</DialogTitle>
   <DialogContent>
     <div className='dialog-about'>
-    <p><b>Version 1.0 | Version Date: 2.8.24</b>
-    <br/><b>Spendify</b> is currently optimized for mobile web use only. You can still access Spendify via Desktop or Tablet but the user expierence would't be as pleasing as much. For updates, kindly follow the developer on 
+    <p><b>Version 1.0
+    <br/>Version Date: 2.8.24</b>
+    <br/><br/><b>Spendify</b> is currently optimized for mobile web use only. You can still access Spendify via Desktop or Tablet but the user expierence would't be as pleasing as much. For updates, kindly follow the developer on 
     <a href="https://www.facebook.com/DenmarkJudilla.Main/" target="_blank" rel="noopener noreferrer"> Facebook</a> and 
     <a href="https://www.instagram.com/denmarkjkl/?hl=en" target="_blank" rel="noopener noreferrer"> Instagram.</a>
     
