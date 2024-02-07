@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home2 from './Home2';
-import Dash2 from './Dash2';
+import Home from './Home';
+import Dash from './Dash';
 
 function App() {
   return (
@@ -9,8 +9,8 @@ function App() {
       <div className="App">
         {/* Your header or common components can go here */}
         <Routes>
-          <Route path="/" element={<Home2 />} />
-          <Route path="/dashboard" element={<Dash2 />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dash />} />
           {/* Add more routes for additional pages if needed */}
         </Routes>
       </div>

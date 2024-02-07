@@ -1,35 +1,32 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Snackbar, Alert } from '@mui/material';
-import './Home.css'; // Import the CSS file for styling
+import './Home.css';
 import ClearIcon from '@mui/icons-material/Clear';
 
-
-
 export const handleAddPayableInDialog = (payableName, payableAmount, payables, setPayables, setSnackbarMessage, setSnackbarSeverity, setSnackbarOpen) => {
-  if (payableName && payableAmount) {
-    const updatedPayables = [...payables, { name: payableName, amount: payableAmount }];
-    setPayables(updatedPayables);
-    localStorage.setItem('payables', JSON.stringify(updatedPayables));
-
-    // Additional logic if needed
-
-    // Show success snackbar
-    setSnackbarMessage('Biller added successfully!');
-    setSnackbarSeverity('success');
-    setSnackbarOpen(true);
-    window.location.reload();
-  } else {
-    setSnackbarMessage(`Please enter Biller Name and Amount.`);
-    setSnackbarOpen(true);
-    setSnackbarSeverity('error');
-  }
-};
-
+    if (payableName && payableAmount) {
+      const updatedPayables = [...payables, { name: payableName, amount: payableAmount }];
+      setPayables(updatedPayables);
+      localStorage.setItem('payables', JSON.stringify(updatedPayables));
+  
+      // Additional logic if needed
+  
+      // Show success snackbar
+      setSnackbarMessage('Biller added successfully!');
+      setSnackbarSeverity('success');
+      setSnackbarOpen(true);
+      window.location.reload();
+    } else {
+      setSnackbarMessage(`Please enter Biller Name and Amount.`);
+      setSnackbarOpen(true);
+      setSnackbarSeverity('error');
+    }
+  };
+  
 
 const Home = () => {
-
- const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
   const [payables, setPayables] = useState([]);
@@ -40,23 +37,21 @@ const Home = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
-  const maxUsernameLength = 15; // Set your desired maximum length for username
-  const maxPayableNameLength = 15; // Set your desired maximum length for payable name
-  const maxPayableAmountLength = 9; // Set your desired maximum length for payable amount
+  const maxUsernameLength = 15;
+  const maxPayableNameLength = 15;
+  const maxPayableAmountLength = 9;
 
   useEffect(() => {
-    // Check if there is a saved username and/or payables in local storage
     const savedUsername = localStorage.getItem('username') || '';
     const savedPayables = JSON.parse(localStorage.getItem('payables')) || [];
-  
+
     if (savedUsername || savedPayables.length > 0) {
-      navigate('/dashboard'); // Redirect to Dash.js if either username or payables exist
+      navigate('/dashboard');
     } else {
       setUsername(savedUsername);
       setPayables(savedPayables);
     }
   }, [navigate]);
-  
 
   const saveUsername = () => {
     localStorage.setItem('username', username);
@@ -67,7 +62,7 @@ const Home = () => {
 
   const savePayable = () => {
     const numericAmount = parseFloat(payableAmount.replace(/,/g, ''), 10);
-    const newPayable = { amount: numericAmount, name: payableName };
+    const newPayable = { amount: numericAmount, originalAmount: numericAmount, name: payableName };
     setPayables([...payables, newPayable]);
     setPayableAmount('');
     setPayableName('');
@@ -76,7 +71,7 @@ const Home = () => {
     setSnackbarSeverity('success');
     setSnackbarOpen(true);
   };
-  
+
   const deletePayable = (index) => {
     const updatedPayables = [...payables];
     updatedPayables.splice(index, 1);
@@ -88,31 +83,23 @@ const Home = () => {
   };
 
   const handlePayableAmountChange = (e) => {
-    // Allow only numbers, commas, and backspace
     const isValidInput = /^[\d,]*$/.test(e.target.value) || e.target.value === '';
 
     if (isValidInput) {
-      // Remove commas and convert to a number for calculations
-      const numericAmount = parseFloat(e.target.value.replace(/,/g, ''), 10);
+      const numericAmount = parseFloat(e.target.value.replace(/,/g, '') || '0', 10);
 
       if (!isNaN(numericAmount)) {
-        // Format the amount with commas for display
         const formattedAmount = new Intl.NumberFormat().format(numericAmount);
         setPayableAmount(formattedAmount);
       } else {
-        // Handle NaN case gracefully
         setPayableAmount('');
       }
     }
   };
 
-
-
-  // Conditions to check if input fields are empty
   const isUsernameEmpty = !username.trim();
   const isPayableEmpty = !payableName.trim() || !payableAmount.trim();
   const isLocalStorageEmpty = payables.length === 0 || !localStorage.getItem('username');
-
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -121,7 +108,7 @@ const Home = () => {
     setSnackbarOpen(false);
   };
 
-  
+ 
  
   return (
     
@@ -233,4 +220,3 @@ const Home = () => {
 };
 
 export default Home;
-
