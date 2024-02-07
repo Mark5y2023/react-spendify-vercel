@@ -84,6 +84,9 @@ const Dash = () => {
     setSnackbarSeverity('success');
   };
 
+  const totalOriginalAmount = payables.reduce((sum, payable) => sum + payable.originalAmount, 0);
+
+
   const handleUndo = (index) => {
     const updatedPayables = [...payables];
     updatedPayables[index].amount = updatedPayables[index].originalAmount;
@@ -178,10 +181,15 @@ const Dash = () => {
           <p style={{ fontSize: 'large', fontWeight: 'bold', color:'black' }}>{`Hi, ${username}!`}</p>
         </div>
         <p className="last-payment">{`Last Payment: ${lastClickedDate}`}</p>
+       
       </div>
 
       <div className="user-section">
-        <p style={{ fontSize: 'large', fontWeight: 'bold' }}>Billers List</p>
+      <p style={{ fontSize: 'large', fontWeight: 'bold' }}>Billers List</p>
+          <p style={{ fontSize: 'large', fontWeight: 'bold', color:'#f50057' }}>
+            {`Total: ₱ ${totalOriginalAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`}
+          </p>
+      
       </div>
 
       <div className="payables-list">
