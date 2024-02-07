@@ -201,7 +201,7 @@ const Dash = () => {
             <MenuIcon />
           </IconButton>
         </div>
-        <div className="header" style={{ marginTop: '2px' }}>
+        <div className="header" style={{ marginTop: '--30px' }}>
           <p style={{ fontSize: 'large', fontWeight: 'bold', color:'black' }}>{`Hi, ${username}!`}</p>
         </div>
         <p className="last-payment">{`Last Payment: ${lastClickedDate}`}</p>
