@@ -46,6 +46,19 @@ const Home = () => {
   const maxPayableNameLength = 15; // Set your desired maximum length for payable name
   const maxPayableAmountLength = 9; // Set your desired maximum length for payable amount
 
+  useEffect(() => {
+    // Check if there is a saved username and payables in local storage
+    const savedUsername = localStorage.getItem('username') || '';
+    const savedPayables = JSON.parse(localStorage.getItem('payables')) || [];
+
+    if (savedUsername && savedPayables.length > 0) {
+      navigate('/dashboard'); // Redirect to Dash.js if data exists
+    } else {
+      setUsername(savedUsername);
+      setPayables(savedPayables);
+    }
+  }, [navigate]);
+
 
   const saveUsername = () => {
     localStorage.setItem('username', username);
