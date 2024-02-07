@@ -24,6 +24,9 @@ import { useNavigate } from 'react-router-dom';
 import './Dash.css';
 import { handleAddPayableInDialog } from './Home';
 import AppIcon from '@mui/icons-material/AppRegistration';
+import { getPaymentStatus } from './paymentUtils';
+
+
 
 const Dash = () => {
   const [username, setUsername] = useState('');
@@ -117,7 +120,11 @@ const Dash = () => {
     const shouldProceed = window.confirm('Are you sure you want to start a new month? This will reset all payables.');
 
     if (shouldProceed) {
-      const updatedPayables = payables.map(p => ({ ...p, amount: p.originalAmount }));
+      const updatedPayables = payables.map(p => ({
+        ...p,
+        amount: p.originalAmount,
+        colorFormatStatus: getPaymentStatus(p.originalAmount, p.originalAmount), // Reset colorFormatStatus
+      }));
       setPayables(updatedPayables);
       localStorage.setItem('payables', JSON.stringify(updatedPayables));
     }
@@ -151,15 +158,6 @@ const Dash = () => {
     setDialogOpen(false);
   };
 
-  const getPaymentStatus = (amount, originalAmount) => {
-    if (amount === 0) {
-      return 'Paid';
-    } else if (amount === originalAmount / 2) {
-      return 'Half Paid';
-    } else {
-      return 'Unpaid';
-    }
-  };
 
   const getDayName = (date) => {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

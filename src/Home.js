@@ -4,7 +4,7 @@ import { Button, TextField, Snackbar, Alert } from '@mui/material';
 import './Home.css';
 import ClearIcon from '@mui/icons-material/Clear';
 import AppIcon from '@mui/icons-material/AppRegistration';
-
+import { getPaymentStatus } from './paymentUtils';
 
 
 export const handleAddPayableInDialog = (
@@ -15,8 +15,8 @@ export const handleAddPayableInDialog = (
   setSnackbarMessage,
   setSnackbarSeverity,
   setSnackbarOpen,
-  setPayableName, // Add setPayableName as a parameter
-  setPayableAmount, // Add setPayableAmount as a parameter
+  setPayableName,
+  setPayableAmount,
   closeDialog
 ) => {
   if (payableName && payableAmount) {
@@ -27,6 +27,7 @@ export const handleAddPayableInDialog = (
         name: payableName,
         amount: numericAmount,
         originalAmount: numericAmount,
+        colorFormatStatus: getPaymentStatus(numericAmount, numericAmount), // Set colorFormatStatus
       };
 
       const existingPayableIndex = payables.findIndex((p) => p.name === payableName);
