@@ -23,7 +23,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useNavigate } from 'react-router-dom';
 import './Dash.css';
 import { handleAddPayableInDialog } from './Home';
-import AppIcon from '@mui/icons-material/AppRegistration';
+import AppIcon from '@mui/icons-material/FlutterDash';
 import { getPaymentStatus } from './paymentUtils';
 
 

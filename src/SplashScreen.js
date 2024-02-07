@@ -2,7 +2,7 @@
 
 import React from 'react';
 import './SplashScreen.css'; // Include your styling here
-import AppIcon from '@mui/icons-material/AppRegistration';
+import AppIcon from '@mui/icons-material/FlutterDash';
 
 
 const SplashScreen = () => {

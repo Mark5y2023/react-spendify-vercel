@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, TextField, Snackbar, Alert } from '@mui/material';
 import './Home.css';
 import ClearIcon from '@mui/icons-material/Clear';
-import AppIcon from '@mui/icons-material/AppRegistration';
+import AppIcon from '@mui/icons-material/FlutterDash';
 import { getPaymentStatus } from './paymentUtils';
 
 
