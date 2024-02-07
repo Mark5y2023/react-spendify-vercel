@@ -6,6 +6,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import AppIcon from '@mui/icons-material/FlutterDash';
 import { getPaymentStatus } from './paymentUtils';
 
+/*Version update 2.8.24*/
 
 export const handleAddPayableInDialog = (
   payableName,
