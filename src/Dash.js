@@ -168,6 +168,7 @@ const Dash = () => {
   };
   return (
     <div className="dashboard-container">
+      <div className="fixed-section2">
       <div className="fixed-section">
         <div className="header">
         <p style={{alignItems:'center', display:'flex', alignContent:'center'}}> <AppIcon style={{ fontSize: 30, color: 'blue'}} /><strong>Spendify</strong></p>
@@ -191,7 +192,7 @@ const Dash = () => {
           </p>
       
       </div>
-
+      </div>
       <div className="payables-list">
         {payables.map((p, index) => (
           <div key={index} className="payable-item">
