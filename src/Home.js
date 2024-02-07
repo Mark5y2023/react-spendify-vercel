@@ -4,9 +4,6 @@ import { Button, TextField, Snackbar, Alert } from '@mui/material';
 import './Home.css';
 import ClearIcon from '@mui/icons-material/Clear';
 
-const divideAmountInHalf = (amount) => {
-  return amount / 2;
-};
 
 export const handleAddPayableInDialog = (
   payableName,
@@ -21,25 +18,26 @@ export const handleAddPayableInDialog = (
     const numericAmount = parseFloat(payableAmount.replace(/,/g, ''), 10);
 
     if (!isNaN(numericAmount)) {
+      // Create a new payable with the full amount
       const newPayable = {
         name: payableName,
         amount: numericAmount,
         originalAmount: numericAmount,
       };
 
-      // Divide the amount in half
-      const halfAmount = divideAmountInHalf(numericAmount);
+      // Check if a payable with the same name already exists in the list
+      const existingPayableIndex = payables.findIndex((p) => p.name === payableName);
 
-      // Create a new payable with half the amount
-      const halfPayable = {
-        name: payableName + ' (Half)',
-        amount: halfAmount,
-        originalAmount: numericAmount,
-      };
+      if (existingPayableIndex !== -1) {
+        // Update the existing payable with the full amount
+        payables[existingPayableIndex] = newPayable;
+      } else {
+        // Add the new payable to the list
+        payables.push(newPayable);
+      }
 
-      const updatedPayables = [...payables, newPayable, halfPayable];
-      setPayables(updatedPayables);
-      localStorage.setItem('payables', JSON.stringify(updatedPayables));
+      // Save both full and half payables to local storage
+      localStorage.setItem('payables', JSON.stringify(payables));
 
       // Show success snackbar
       setSnackbarMessage('Biller added successfully!');
@@ -56,7 +54,7 @@ export const handleAddPayableInDialog = (
     setSnackbarSeverity('error');
   }
 };
-  
+
 
 const Home = () => {
   const navigate = useNavigate();
