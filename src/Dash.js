@@ -1,5 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Snackbar, Alert, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import {
+  Button,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Snackbar,
+  Alert,
+  TextField,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
@@ -9,10 +24,7 @@ import { useNavigate } from 'react-router-dom';
 import './Dash.css'; // Import the CSS file for styling
 import { handleAddPayableInDialog } from './Home'; // Ensure the correct path to Home.js
 
-
-
 const Dash = () => {
-
   const [username, setUsername] = useState('');
   const [payables, setPayables] = useState([]);
   const [lastClickedDate, setLastClickedDate] = useState('');
@@ -22,18 +34,21 @@ const Dash = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [isDialogOpen, setDialogOpen] = useState(false);
-const [payableName, setPayableName] = useState('');
-const [payableAmount, setPayableAmount] = useState('');
-
- 
+  const [payableName, setPayableName] = useState('');
+  const [payableAmount, setPayableAmount] = useState('');
 
   useEffect(() => {
     const savedUsername = localStorage.getItem('username') || '';
     const savedPayables = JSON.parse(localStorage.getItem('payables')) || [];
     const savedLastClickedDate = localStorage.getItem('lastClickedDate') || '';
 
+    const updatedPayables = savedPayables.map(p => ({
+      ...p,
+      colorFormatStatus: getPaymentStatus(p.amount, p.originalAmount), // Store color format status
+    }));
+
     setUsername(savedUsername);
-    setPayables(savedPayables.map(p => ({ ...p, originalAmount: p.amount })));
+    setPayables(updatedPayables);
     setLastClickedDate(savedLastClickedDate);
   }, []);
 
@@ -49,6 +64,10 @@ const [payableAmount, setPayableAmount] = useState('');
     }
 
     updatedPayables[index].clickCount = (updatedPayables[index].clickCount || 0) + 1;
+    updatedPayables[index].colorFormatStatus = getPaymentStatus(
+      updatedPayables[index].amount,
+      updatedPayables[index].originalAmount
+    );
 
     setPayables(updatedPayables);
 
@@ -58,7 +77,7 @@ const [payableAmount, setPayableAmount] = useState('');
     localStorage.setItem('payables', JSON.stringify(updatedPayables));
     localStorage.setItem('lastClickedDate', formattedDate);
     handleSnackbarOpen(`Payment processed successfully!`);
-    setSnackbarSeverity('success'); 
+    setSnackbarSeverity('success');
   };
 
   const handleUndo = (index) => {
@@ -88,35 +107,30 @@ const [payableAmount, setPayableAmount] = useState('');
   const handleNewMonth = () => {
     setDrawerOpen(false);
     const shouldProceed = window.confirm('Are you sure you want to start a new month? This will reset all payables.');
-  
+
     if (shouldProceed) {
       const updatedPayables = payables.map(p => ({ ...p, amount: p.originalAmount }));
       setPayables(updatedPayables);
       localStorage.setItem('payables', JSON.stringify(updatedPayables));
-    
     }
   };
-  
-  const handleAdd = () => {
 
+  const handleAdd = () => {
     setDialogOpen(true);
     setDrawerOpen(false);
-
   };
 
   const handlePayableAmountChangeDialog = (e) => {
     // Allow only numbers, commas, and backspace
     const isValidInput = /^[\d,]*$/.test(e.target.value) || e.target.value === '';
-    
+
     if (isValidInput) {
       // Remove commas and convert to a number for calculations
       const numericAmount = parseFloat(e.target.value.replace(/,/g, '') || '0', 10);
-    
+
       setPayableAmount(numericAmount.toString());
     }
   };
-  
-  
 
   const handleSnackbarOpen = (message) => {
     setSnackbarMessage(message);
@@ -130,8 +144,32 @@ const [payableAmount, setPayableAmount] = useState('');
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
-  
-  
+
+  const getPaymentStatus = (amount, originalAmount) => {
+    if (amount === 0) {
+      return 'Paid';
+    } else if (amount === originalAmount / 2) {
+      return 'Half Paid';
+    } else {
+      return 'Not Paid';
+    }
+  };
+
+  useEffect(() => {
+    const savedUsername = localStorage.getItem('username') || '';
+    const savedPayables = JSON.parse(localStorage.getItem('payables')) || [];
+    const savedLastClickedDate = localStorage.getItem('lastClickedDate') || '';
+
+    const updatedPayables = savedPayables.map(p => ({
+      ...p,
+      originalAmount: p.amount,
+      colorFormatStatus: getPaymentStatus(p.amount, p.originalAmount), // Store color format status
+    }));
+
+    setUsername(savedUsername);
+    setPayables(updatedPayables);
+    setLastClickedDate(savedLastClickedDate);
+  }, []);
 
   const getDayName = (date) => {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -145,21 +183,20 @@ const [payableAmount, setPayableAmount] = useState('');
           <p>
             <img src="/2685032.png" alt="" style={{ height: '25px' }} /> <strong>Spendify</strong>
           </p>
-          
+
           <IconButton onClick={() => setDrawerOpen(true)} style={{ marginLeft: 'auto' }}>
             <MenuIcon />
           </IconButton>
         </div>
-        <div className="header" style={{marginTop:'2px'}}>
-          <p style={{fontSize:'large', fontWeight:'bold'}}>{`Hi, ${username}!`}</p>
+        <div className="header" style={{ marginTop: '2px' }}>
+          <p style={{ fontSize: 'large', fontWeight: 'bold' }}>{`Hi, ${username}!`}</p>
         </div>
         <p className="last-payment">{`Last Payment: ${lastClickedDate}`}</p>
       </div>
 
       <div className="user-section">
-      <p style={{fontSize:'large', fontWeight:'bold'}}>Billers List</p>
-    
-          </div>
+        <p style={{ fontSize: 'large', fontWeight: 'bold' }}>Billers List</p>
+      </div>
 
       <div className="payables-list">
         {payables.map((p, index) => (
@@ -173,8 +210,22 @@ const [payableAmount, setPayableAmount] = useState('');
               </IconButton>
             </div>
             <div className="payable-texts">
-              <p style={{ fontWeight: 'bold', fontSize: 'medium', margin: '0' }}>{`${p.name}`}</p>
+              <p
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 'medium',
+                  margin: '0',
+                  color: p.amount !== p.originalAmount ? 'red' : 'black', // Change text color if amount is different
+                }}
+              >{`${p.name}`}</p>
               <p style={{ fontSize: 'small', margin: '0' }}>{`₱ ${p.amount}`}</p>
+              <p
+                style={{
+                  fontSize: 'small',
+                  margin: '0',
+                  color: p.amount !== p.originalAmount ? 'red' : 'black', // Change text color if amount is different
+                }}
+              >{p.colorFormatStatus}</p>
             </div>
             <div className="payable-buttons">
               <Button variant="contained" onClick={() => handlePay(index)}>
@@ -189,41 +240,41 @@ const [payableAmount, setPayableAmount] = useState('');
       </div>
 
       {/* Navigation Drawer */}
-      <Drawer  
-       anchor="bottom"
-       open={isDrawerOpen}
-       onClose={() => setDrawerOpen(false)}
-       PaperProps={{
-         sx: {
-           borderTopLeftRadius: '10px',  // Set the radius for top-left corner
-           borderTopRightRadius: '10px', // Set the radius for top-right corner
-         },
-       }}
-     >
+      <Drawer
+        anchor="bottom"
+        open={isDrawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        PaperProps={{
+          sx: {
+            borderTopLeftRadius: '10px', // Set the radius for the top-left corner
+            borderTopRightRadius: '10px', // Set the radius for the top-right corner
+          },
+        }}
+      >
         <List>
           <ListItem button onClick={handleAdd}>
             <ListItemIcon>
               <AddIcon />
             </ListItemIcon>
-            <ListItemText style={{marginLeft:'-10px'}} primary="Add" />
+            <ListItemText style={{ marginLeft: '-10px' }} primary="Add" />
           </ListItem>
           <ListItem button onClick={handleNewMonth}>
             <ListItemIcon>
               <CalendarTodayIcon />
             </ListItemIcon>
-            <ListItemText style={{marginLeft:'-10px'}} primary="New Month" />
+            <ListItemText style={{ marginLeft: '-10px' }} primary="New Month" />
           </ListItem>
           <ListItem button onClick={handleReset}>
             <ListItemIcon>
               <RefreshIcon />
             </ListItemIcon>
-            <ListItemText style={{marginLeft:'-10px'}} primary="Reset" />
+            <ListItemText style={{ marginLeft: '-10px' }} primary="Reset" />
           </ListItem>
         </List>
       </Drawer>
 
       <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-        <DialogTitle style={{fontWeight:'bold'}}>Add New Biller</DialogTitle>
+        <DialogTitle style={{ fontWeight: 'bold' }}>Add New Biller</DialogTitle>
         <DialogContent>
           {/* Your form content goes here */}
           <TextField
@@ -236,25 +287,38 @@ const [payableAmount, setPayableAmount] = useState('');
             inputProps={{ maxLength: 15 }}
           />
           <TextField
-  label="Amount"
-  variant="outlined"
-  margin="normal"
-  value={payableAmount}
-  onChange={(e) => handlePayableAmountChangeDialog(e)}
-  onKeyPress={(e) => {
-    // Prevent non-numeric input
-    if (isNaN(e.key)) {
-      e.preventDefault();
-    }
-  }}
-  style={{ width: '100%' }}
-  inputProps={{ maxLength: 9 }} // Limit to 9 characters
-/>
-
+            label="Amount"
+            variant="outlined"
+            margin="normal"
+            value={payableAmount}
+            onChange={(e) => handlePayableAmountChangeDialog(e)}
+            onKeyPress={(e) => {
+              // Prevent non-numeric input
+              if (isNaN(e.key)) {
+                e.preventDefault();
+              }
+            }}
+            style={{ width: '100%' }}
+            inputProps={{ maxLength: 9 }} // Limit to 9 characters
+          />
         </DialogContent>
         <DialogActions>
-        <Button onClick={() => handleAddPayableInDialog(payableName, payableAmount, payables, setPayables, setSnackbarMessage, setSnackbarSeverity, setSnackbarOpen)}>Add</Button>
-        <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button
+            onClick={() =>
+              handleAddPayableInDialog(
+                payableName,
+                payableAmount,
+                payables,
+                setPayables,
+                setSnackbarMessage,
+                setSnackbarSeverity,
+                setSnackbarOpen
+              )
+            }
+          >
+            Add
+          </Button>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
         </DialogActions>
       </Dialog>
 
@@ -268,7 +332,6 @@ const [payableAmount, setPayableAmount] = useState('');
           {snackbarMessage}
         </Alert>
       </Snackbar>
-
     </div>
   );
 };
