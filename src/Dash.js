@@ -201,7 +201,7 @@ const Dash = () => {
             <MenuIcon />
           </IconButton>
         </div>
-        <div className="header" style={{ marginTop: '--30px' }}>
+        <div className="header" style={{ marginTop: '-20  px' }}>
           <p style={{ fontSize: 'large', fontWeight: 'bold', color:'black' }}>{`Hi, ${username}!`}</p>
         </div>
         <p className="last-payment">{`Last Payment: ${lastClickedDate}`}</p>
@@ -224,13 +224,13 @@ const Dash = () => {
               <div {...provided.droppableProps} ref={provided.innerRef}>
                 {payables.map((p, index) => (
                   <Draggable key={index} draggableId={`payable-${index}`} index={index}>
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className="payable-item"
-                      >
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      className={`payable-item ${snapshot.isDragging ? 'dragging' : ''}`}
+                    >
                         <div className="payable-buttons">
                           <IconButton
                             onClick={() => handleDelete(index)}

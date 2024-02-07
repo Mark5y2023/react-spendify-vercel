@@ -92,7 +92,6 @@
   border-bottom: 1px solid rgb(193, 193, 193);
   color: rgb(70, 70, 70);
   height: fit-content;
-
 }
 
 .payable-item:hover {
@@ -100,10 +99,16 @@
   color: grey;
 }
 
+.payable-item.dragging {
+  background-color: rgba(206, 206, 226, 0.515);
+}
+
 .payable-buttons button {
   margin-left: 5px;
 }
+
 /* ... (your existing CSS) */
+
 
 .payable-texts {
   flex-grow: 1;
