@@ -47,18 +47,18 @@ const Home = () => {
   const maxPayableAmountLength = 9; // Set your desired maximum length for payable amount
 
   useEffect(() => {
-    // Check if there is a saved username and payables in local storage
+    // Check if there is a saved username and/or payables in local storage
     const savedUsername = localStorage.getItem('username') || '';
     const savedPayables = JSON.parse(localStorage.getItem('payables')) || [];
-
-    if (savedUsername && savedPayables.length > 0) {
-      navigate('/dashboard'); // Redirect to Dash.js if data exists
+  
+    if (savedUsername || savedPayables.length > 0) {
+      navigate('/dashboard'); // Redirect to Dash.js if either username or payables exist
     } else {
       setUsername(savedUsername);
       setPayables(savedPayables);
     }
   }, [navigate]);
-
+  
 
   const saveUsername = () => {
     localStorage.setItem('username', username);
@@ -88,18 +88,23 @@ const Home = () => {
     setSnackbarSeverity('success');
     setSnackbarOpen(true);
   };
+
   const handlePayableAmountChange = (e) => {
     // Allow only numbers, commas, and backspace
     const isValidInput = /^[\d,]*$/.test(e.target.value) || e.target.value === '';
-  
+
     if (isValidInput) {
       // Remove commas and convert to a number for calculations
       const numericAmount = parseFloat(e.target.value.replace(/,/g, ''), 10);
-      
-      // Format the amount with commas for display
-      const formattedAmount = new Intl.NumberFormat().format(numericAmount);
-      
-      setPayableAmount(formattedAmount);
+
+      if (!isNaN(numericAmount)) {
+        // Format the amount with commas for display
+        const formattedAmount = new Intl.NumberFormat().format(numericAmount);
+        setPayableAmount(formattedAmount);
+      } else {
+        // Handle NaN case gracefully
+        setPayableAmount('');
+      }
     }
   };
 

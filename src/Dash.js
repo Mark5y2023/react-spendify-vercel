@@ -150,8 +150,8 @@ const [payableAmount, setPayableAmount] = useState('');
             <MenuIcon />
           </IconButton>
         </div>
-        <div className="header">
-          <p style={{fontSize:'x-large', fontWeight:'bold'}}>{`Hi, ${username}!`}</p>
+        <div className="header" style={{marginTop:'2px'}}>
+          <p style={{fontSize:'large', fontWeight:'bold'}}>{`Hi, ${username}!`}</p>
         </div>
         <p className="last-payment">{`Last Payment: ${lastClickedDate}`}</p>
       </div>

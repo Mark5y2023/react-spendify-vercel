@@ -61,6 +61,7 @@
   font-weight: bold;
   width: 100%;
   margin: -10px ;
+  color: rgb(70, 70, 70);
 }
 
 .payables-list {
@@ -187,7 +188,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid rgb(193, 193, 193);
-  color: rgb(119, 119, 119);
+  color: rgb(70, 70, 70);
 
 }
 
