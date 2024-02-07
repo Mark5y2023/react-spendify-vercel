@@ -129,13 +129,13 @@ const Dash = () => {
 
   const handlePayableAmountChangeDialog = (e) => {
     const isValidInput = /^[\d,]*$/.test(e.target.value) || e.target.value === '';
-
+  
     if (isValidInput) {
       const numericAmount = parseFloat(e.target.value.replace(/,/g, '') || '0', 10);
-
       setPayableAmount(numericAmount.toString());
     }
   };
+  
 
   const handleSnackbarOpen = (message) => {
     setSnackbarMessage(message);
@@ -265,27 +265,27 @@ const Dash = () => {
         <DialogTitle style={{ fontWeight: 'bold' }}>Add New Biller</DialogTitle>
         <DialogContent>
           {/* Your form content goes here */}
-          <TextField
-            label="Biller Name"
-            variant="outlined"
-            margin="normal"
-            value={payableName}
-            onChange={(e) => setPayableName(e.target.value)}
-            style={{ width: '100%' }}
-            inputProps={{ maxLength: 15 }}
-          />
-          <TextField
-            label="Amount"
-            variant="outlined"
-            margin="normal"
-            value={payableAmount}
-            onChange={(e) => handlePayableAmountChangeDialog(e)}
-            onKeyPress={(e) => {
-              // Prevent non-numeric input
-              if (isNaN(e.key)) {
-                e.preventDefault();
-              }
-            }}
+            <TextField
+              label="Biller Name"
+              variant="outlined"
+              margin="normal"
+              value={payableName}
+              onChange={(e) => setPayableName(e.target.value)}
+              style={{ width: '100%' }}
+              inputProps={{ maxLength: 15 }}
+            />
+            <TextField
+              label="Amount"
+              variant="outlined"
+              margin="normal"
+              value={payableAmount}
+              onChange={(e) => handlePayableAmountChangeDialog(e)}
+              onKeyPress={(e) => {
+                // Prevent non-numeric input
+                if (isNaN(e.key)) {
+                  e.preventDefault();
+                }
+              }}
             style={{ width: '100%' }}
             inputProps={{ maxLength: 9 }} // Limit to 9 characters
           />
@@ -300,7 +300,10 @@ const Dash = () => {
                 setPayables,
                 setSnackbarMessage,
                 setSnackbarSeverity,
-                setSnackbarOpen
+                setSnackbarOpen,
+                setPayableName, // Pass setPayableName function
+                setPayableAmount, // Pass setPayableAmount function
+                () => setDialogOpen(false)
               )
             }
           >

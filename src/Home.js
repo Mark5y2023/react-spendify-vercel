@@ -5,6 +5,7 @@ import './Home.css';
 import ClearIcon from '@mui/icons-material/Clear';
 
 
+
 export const handleAddPayableInDialog = (
   payableName,
   payableAmount,
@@ -12,41 +13,41 @@ export const handleAddPayableInDialog = (
   setPayables,
   setSnackbarMessage,
   setSnackbarSeverity,
-  setSnackbarOpen
+  setSnackbarOpen,
+  setPayableName, // Add setPayableName as a parameter
+  setPayableAmount, // Add setPayableAmount as a parameter
+  closeDialog
 ) => {
   if (payableName && payableAmount) {
     const numericAmount = parseFloat(payableAmount.replace(/,/g, ''), 10);
 
     if (!isNaN(numericAmount)) {
-      // Create a new payable with the full amount
       const newPayable = {
         name: payableName,
         amount: numericAmount,
         originalAmount: numericAmount,
       };
 
-      // Check if a payable with the same name already exists in the list
       const existingPayableIndex = payables.findIndex((p) => p.name === payableName);
 
       if (existingPayableIndex !== -1) {
-        // Update the existing payable with the full amount
         payables[existingPayableIndex] = newPayable;
       } else {
-        // Add the new payable to the list
         payables.push(newPayable);
       }
 
-      // Save both full and half payables to local storage
       localStorage.setItem('payables', JSON.stringify(payables));
 
-      // Show success snackbar
       setSnackbarMessage('Biller added successfully!');
       setSnackbarSeverity('success');
       setSnackbarOpen(true);
-    } else {
-      setSnackbarMessage(`Please enter a valid amount.`);
-      setSnackbarOpen(true);
-      setSnackbarSeverity('error');
+
+      // Clear the input fields in the dialog box
+      setPayableName('');
+      setPayableAmount('');
+
+      // Close the dialog
+      closeDialog();
     }
   } else {
     setSnackbarMessage(`Please enter Biller Name and Amount.`);
@@ -54,6 +55,7 @@ export const handleAddPayableInDialog = (
     setSnackbarSeverity('error');
   }
 };
+
 
 
 const Home = () => {
@@ -101,6 +103,7 @@ const Home = () => {
       return updatedPayables;
     });
   
+    // Clear the input fields
     setPayableAmount('');
     setPayableName('');
   
