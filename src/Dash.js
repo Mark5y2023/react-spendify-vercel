@@ -25,6 +25,7 @@ import './Dash.css';
 import { handleAddPayableInDialog } from './Home';
 import AppIcon from '@mui/icons-material/FlutterDash';
 import { getPaymentStatus } from './paymentUtils';
+import InfoIcon from '@mui/icons-material/Info';
 
 
 
@@ -40,6 +41,8 @@ const Dash = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [payableName, setPayableName] = useState('');
   const [payableAmount, setPayableAmount] = useState('');
+  const [isDialogOpen2, setDialogOpen2] = useState(false);
+
 
   useEffect(() => {
     const savedUsername = localStorage.getItem('username') || '';
@@ -55,6 +58,13 @@ const Dash = () => {
     setPayables(updatedPayables);
     setLastClickedDate(savedLastClickedDate);
   }, []);
+
+  const handleAbout = () => {
+    setDialogOpen2(true);
+    setSnackbarMessage('');
+    setSnackbarSeverity('info');
+  };
+  
 
   const handlePay = (index) => {
     const updatedPayables = [...payables];
@@ -265,6 +275,12 @@ const Dash = () => {
             </ListItemIcon>
             <ListItemText style={{ marginLeft: '-10px' }} primary="Reset" />
           </ListItem>
+          <ListItem button onClick={handleAbout}>
+    <ListItemIcon>
+      <InfoIcon />
+    </ListItemIcon>
+    <ListItemText style={{ marginLeft: '-10px' }} primary="About" />
+  </ListItem>
         </List>
       </Drawer>
 
@@ -330,6 +346,23 @@ const Dash = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+
+      <Dialog open={isDialogOpen2} onClose={() => setDialogOpen2(false)}>
+  <DialogTitle style={{ fontWeight: 'bold' }}>About</DialogTitle>
+  <DialogContent>
+    <div className='dialog-about'>
+    <p><b>Version 1.0:</b> <br/><b>Spendify</b> is currently optimized for mobile web use only. You can still access Spendify via Desktop or Tablet but the user expierence would't be as pleasing as much. For updates, kindly follow the developer on 
+    <a href="https://www.facebook.com/DenmarkJudilla.Main/" target="_blank" rel="noopener noreferrer"> Facebook</a> and 
+    <a href="https://www.instagram.com/denmarkjkl/?hl=en" target="_blank" rel="noopener noreferrer"> Instagram.</a>
+    
+    <br/><br/><b>Developed by Denmark Judilla<br/> All Rights Reserved 2024</b></p>
+    </div>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={() => setDialogOpen2(false)}>Okay</Button>
+  </DialogActions>
+</Dialog>
+
     </div>
   );
 };
