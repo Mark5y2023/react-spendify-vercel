@@ -26,6 +26,8 @@ import { handleAddPayableInDialog } from './Home';
 import AppIcon from '@mui/icons-material/FlutterDash';
 import { getPaymentStatus } from './paymentUtils';
 import InfoIcon from '@mui/icons-material/Info';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
 
 
 
@@ -65,6 +67,17 @@ const Dash = () => {
     setSnackbarSeverity('info');
   };
   
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const updatedPayables = [...payables];
+    const [removed] = updatedPayables.splice(result.source.index, 1);
+    updatedPayables.splice(result.destination.index, 0, removed);
+
+    setPayables(updatedPayables);
+    localStorage.setItem('payables', JSON.stringify(updatedPayables));
+  };
+
 
   const handlePay = (index) => {
     const updatedPayables = [...payables];
@@ -203,45 +216,68 @@ const Dash = () => {
       
       </div>
       </div>
-      <div className="payables-list">
-        {payables.map((p, index) => (
-          <div key={index} className="payable-item">
-            <div className="payable-buttons">
-              <IconButton
-                onClick={() => handleDelete(index)}
-                style={{ border: 'none', background: 'none' }}
-              >
-                <ClearIcon style={{ color: 'grey' }} />
-              </IconButton>
-            </div>
-            <div className="payable-texts">
-              <p
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: 'medium',
-                  margin: '0',
-                  color: p.amount !== p.originalAmount ? '#f50057' : 'gray', // Change text color if amount is different
-                }}
-              >{`${p.name}`}</p>
-              <p style={{ fontSize: 'small', margin: '0' }}>{`₱ ${p.amount}`}</p>
-              <p
-                style={{
-                  fontSize: 'small',
-                  margin: '0',
-                  color: p.amount !== p.originalAmount ? '#f50057' : 'gray', // Change text color if amount is different
-                }}
-              >{p.colorFormatStatus}</p>
-            </div>
-            <div className="payable-buttons">
-              <Button variant="contained" onClick={() => handlePay(index)}>
-                Pay
-              </Button>
-              <Button variant="outlined" onClick={() => handleUndo(index)}>
-                Undo
-              </Button>
-            </div>
-          </div>
-        ))}
+      
+       <div className="payables-list">
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="payables">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {payables.map((p, index) => (
+                  <Draggable key={index} draggableId={`payable-${index}`} index={index}>
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className="payable-item"
+                      >
+                        <div className="payable-buttons">
+                          <IconButton
+                            onClick={() => handleDelete(index)}
+                            style={{ border: 'none', background: 'none' }}
+                          >
+                            <ClearIcon style={{ color: 'grey' }} />
+                          </IconButton>
+                        </div>
+                        <div className="payable-texts">
+                          <p
+                            style={{
+                              fontWeight: 'bold',
+                              fontSize: 'medium',
+                              margin: '0',
+                              color: p.amount !== p.originalAmount ? '#f50057' : 'gray',
+                            }}
+                          >
+                            {`${p.name}`}
+                          </p>
+                          <p style={{ fontSize: 'small', margin: '0' }}>{`₱ ${p.amount}`}</p>
+                          <p
+                            style={{
+                              fontSize: 'small',
+                              margin: '0',
+                              color: p.amount !== p.originalAmount ? '#f50057' : 'gray',
+                            }}
+                          >
+                            {p.colorFormatStatus}
+                          </p>
+                        </div>
+                        <div className="payable-buttons">
+                          <Button variant="contained" onClick={() => handlePay(index)}>
+                            Pay
+                          </Button>
+                          <Button variant="outlined" onClick={() => handleUndo(index)}>
+                            Undo
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
 
       {/* Navigation Drawer */}
