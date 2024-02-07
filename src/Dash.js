@@ -353,7 +353,7 @@ const Dash = () => {
     <div className='dialog-about'>
     <p><b>Version 1.0
     <br/>Version Date: 2.8.24</b>
-    <br/><br/><b>Spendify</b> is currently optimized for mobile web use only. You can still access Spendify via Desktop or Tablet but the user expierence would't be as pleasing as much. For updates, kindly follow the developer on 
+    <br/><br/><b>Spendify</b> is currently optimized for mobile web use only. You can still access Spendify via Desktop or Tablet, but the user experience wouldn't be as pleasing. For updates, kindly follow the developer on 
     <a href="https://www.facebook.com/DenmarkJudilla.Main/" target="_blank" rel="noopener noreferrer"> Facebook</a> and 
     <a href="https://www.instagram.com/denmarkjkl/?hl=en" target="_blank" rel="noopener noreferrer"> Instagram.</a>
     
