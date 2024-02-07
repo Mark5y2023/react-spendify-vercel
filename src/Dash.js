@@ -157,7 +157,7 @@ const [payableAmount, setPayableAmount] = useState('');
       </div>
 
       <div className="user-section">
-          <h3>Billers List</h3>
+      <p style={{fontSize:'large', fontWeight:'bold'}}>Billers List</p>
     
           </div>
 
