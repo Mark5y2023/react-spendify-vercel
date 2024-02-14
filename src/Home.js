@@ -271,7 +271,7 @@ style={{marginTop:'5px'}}
 
         <Button
          
-          style={{ marginTop: '20px',alignSelf:'flex-end' ,borderRadius:'5px', marginRight:'1px'}}
+          style={{ marginTop: '20px',alignSelf:'flex-end' ,borderRadius:'5px', marginRight:'15px'}}
           onClick={() => navigate('/dashboard')}
           variant="contained"
           color="primary"
