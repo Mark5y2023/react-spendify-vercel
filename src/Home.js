@@ -80,37 +80,13 @@ const Home = () => {
     const savedUsername = localStorage.getItem('username') || '';
     const savedPayables = JSON.parse(localStorage.getItem('payables')) || [];
 
-    if (!savedUsername || savedPayables.length === 0) {
-      // If either username or payables is missing, navigate to Home.js
-      navigate('/');
+    if (savedUsername || savedPayables.length > 0) {
+      navigate('/dashboard');
     } else {
       setUsername(savedUsername);
       setPayables(savedPayables);
     }
   }, [navigate]);
-
-  useEffect(() => {
-    // Add event listener for beforeunload to check if data is present before leaving the page
-    const handleBeforeUnload = (event) => {
-      const savedUsername = localStorage.getItem('username') || '';
-      const savedPayables = JSON.parse(localStorage.getItem('payables')) || [];
-
-      if (!savedUsername || savedPayables.length === 0) {
-        // If either username or payables is missing, show a warning before leaving
-        const message = "Are you sure you want to leave? Your data will be lost.";
-        event.returnValue = message;
-        return message;
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      // Remove the event listener when the component is unmounted
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-
 
   const saveUsername = () => {
     localStorage.setItem('username', username);
