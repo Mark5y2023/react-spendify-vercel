@@ -1,3 +1,4 @@
+
 .home-container {
   display: flex;
   flex-direction: column;
@@ -5,6 +6,7 @@
   align-items: center;
   margin: 5px;
   padding: 10px;
+  color: #424242;
 }
 
 .fixed-section {
@@ -13,7 +15,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 20px;
+ 
   align-items: center;
   background-color: #fff; /* Set a background color if needed */
   z-index: 1; /* Ensure it's above the scrollable section */
@@ -28,7 +30,7 @@
   font-weight: bold;
   font-size: x-large;
   margin-top: -25px;
-  color: blue;
+  
  
  
 }
@@ -53,24 +55,16 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: -20px;
+ 
 
 }
 
-.input-section input {
-  width: 100%;
-  height: 8px;
-}
 
-.input-section label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
-}
 
 .input-section button,
 .next-button {
   align-self: flex-end;
+
 }
 
 
@@ -84,19 +78,36 @@
 
   
 }
-.payable-item {
-  margin-bottom: 5px;
-  transition: transform 0.2s, color 0.2s; /* Add transition for a smooth effect */
+.payable-item1 {
+  transition: transform 0.2s, color 0.2s;
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  height: 40px;
   align-items: center;
-  border-bottom: 1px solid rgb(193, 193, 193); /* Add gray border below each item */
-  color: rgb(119, 119, 119);
+  border-bottom: 1px solid rgb(193, 193, 193);
+  height: fit-content;
+  padding-bottom: 5px;
+
 }
 
-.payable-item:hover {
+.payable-item1:hover {
   transform: scale(1.1); /* Enlarge the text on hover */
   color: grey; /* Change text color on hover */
+}
+
+
+
+/* Active state for the button */
+.active {
+  background-color: #6200EA !important;
+  color: white;
+  border-radius: 50px;
+  box-shadow: 1px 2px 9px #E0E0E0;
+}
+
+/* Inactive state for the button */
+.inactive {
+  background-color: #E0E0E0 !important;
+  color: white;
+  border-radius: 100px; /* You can adjust this value as needed */
+  box-shadow: none;
 }

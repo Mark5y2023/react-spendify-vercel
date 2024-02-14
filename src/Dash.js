@@ -14,6 +14,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Card,
+  CardContent,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -200,27 +202,80 @@ const Dash = () => {
   return (
     <div className="dashboard-container">
       <div className="fixed-section2">
-      <div className="fixed-section">
+      
         <div className="header">
-        <p style={{alignItems:'center', display:'flex', alignContent:'center'}}> <AppIcon style={{ fontSize: 30, color: 'blue'}} /><strong>Spendify</strong></p>
+        <p style={{alignItems:'center', display:'flex', alignContent:'center'}}> <AppIcon style={{ fontSize: 30, color: '#651FFF'}} /><strong>Spendify</strong></p>
         
 
           <IconButton onClick={() => setDrawerOpen(true)} style={{ marginLeft: 'auto' }}>
             <MenuIcon />
           </IconButton>
         </div>
-        <div className="header" style={{ marginTop: '-15px' }}>
-          <p style={{ fontSize: 'large', fontWeight: 'bold', color:'black' }}>{`Hi, ${username}!`}</p>
-        </div>
-        <p className="last-payment">{`Last Payment: ${lastClickedDate}`}</p>
+        <Card style={{borderRadius:'20px' , boxShadow:'1px 2px 9px #E0E0E0', width:'100%' , backgroundColor:'#ffffff'}}>
+          <CardContent>
+
+          <div className='card-holder' style={{ paddingLeft: "10px", display: 'flex', flexDirection: 'column' }}>
+  <div>
+    <p style={{ fontSize: 'large', fontWeight: 'bold', marginTop: '5px' }}>{`Hi, ${username}!`}</p>
+    <p style={{ fontSize: 'medium', fontWeight: 'bold' }}>{`Last Payment: ${lastClickedDate}`}</p>
+  </div>
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginTop:'10px' }}>
+    <div style={{
+      backgroundColor: '#651FFF',
+      borderRadius: '20px',
+      width: 'fit-content',
+      boxShadow: '1px 2px 9px #E0E0E0',
+      animation: 'breathing 3s infinite',
+    }}>
+      <p style={{
+        marginBottom: '-5px',
+        fontSize: 'large',
+        fontWeight: 'bold',
+        padding: '8px',
+        color: 'white',
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+        width: '90%',
+        margin: 0,
+      }}>
+        {`Total: ₱ ${totalOriginalAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`}
+      </p>
+    </div>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <Button
+     variant='outlined'
+        style={{
        
-      </div>
+          fontSize: '15px',
+     
+       marginRight:'30px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+         borderColor:'#616161',
+          borderRadius: '15px',
+          color:'#616161',
+        
+        
+        }}
+        onClick={handleAdd}
+      >
+        <AddIcon style={{ fontSize: 18,marginBottom:'3px'}} />
+        Add
+      </Button>
+    </div>
+  </div>
+</div>
+      
+     
+    </CardContent>
+    </Card>
+  
 
       <div className="user-section">
       <p style={{ fontSize: 'large', fontWeight: 'bold' }}>Billers List</p>
-          <p style={{ fontSize: 'large', fontWeight: 'bold', color:'#f50057' }}>
-            {`Total: ₱ ${totalOriginalAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`}
-          </p>
+          
       
       </div>
       </div>
@@ -253,7 +308,7 @@ const Dash = () => {
                               fontWeight: 'bold',
                               fontSize: 'medium',
                               margin: '0',
-                              color: p.amount !== p.originalAmount ? '#f50057' : 'gray',
+                              color: p.amount !== p.originalAmount ? '#f50057' : '',
                             }}
                           >
                             {`${p.name}`}
@@ -263,20 +318,29 @@ const Dash = () => {
                             style={{
                               fontSize: 'small',
                               margin: '0',
-                              color: p.amount !== p.originalAmount ? '#f50057' : 'gray',
+                              color: p.amount !== p.originalAmount ? '#f50057' : '',
                             }}
                           >
                             {p.colorFormatStatus}
                           </p>
                         </div>
                         <div className="payable-buttons">
-                          <Button variant="contained" onClick={() => handlePay(index)}>
-                            Pay
-                          </Button>
-                          <Button variant="outlined" onClick={() => handleUndo(index)}>
-                            Undo
-                          </Button>
-                        </div>
+  <Button
+    variant="contained"
+    onClick={() => handlePay(index)}
+    style={{ backgroundColor: '#6200EA', color: '#ffffff' }}
+  >
+    Pay
+  </Button>
+  <Button
+    variant="outlined"
+    onClick={() => handleUndo(index)}
+    style={{ borderColor: '#6200EA', color: '#6200EA' }}
+  >
+    Undo
+  </Button>
+</div>
+
                       </div>
                     )}
                   </Draggable>
@@ -293,20 +357,17 @@ const Dash = () => {
         anchor="bottom"
         open={isDrawerOpen}
         onClose={() => setDrawerOpen(false)}
+   
         PaperProps={{
           sx: {
             borderTopLeftRadius: '10px', // Set the radius for the top-left corner
             borderTopRightRadius: '10px', // Set the radius for the top-right corner
+           
           },
         }}
       >
         <List>
-          <ListItem button onClick={handleAdd}>
-            <ListItemIcon>
-              <AddIcon />
-            </ListItemIcon>
-            <ListItemText style={{ marginLeft: '-10px' }} primary="Add" />
-          </ListItem>
+          
           <ListItem button onClick={handleNewMonth}>
             <ListItemIcon>
               <CalendarTodayIcon />
@@ -329,7 +390,7 @@ const Dash = () => {
       </Drawer>
 
       <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-        <DialogTitle style={{ fontWeight: 'bold' }}>Add New Biller</DialogTitle>
+        <DialogTitle style={{ fontWeight: 'bold', color:'#6200EA' }}>Add New Biller</DialogTitle>
         <DialogContent>
           {/* Your form content goes here */}
             <TextField
@@ -338,8 +399,19 @@ const Dash = () => {
               margin="normal"
               value={payableName}
               onChange={(e) => setPayableName(e.target.value)}
-              style={{ width: '100%' }}
+              style={{ width: '100%'}}
               inputProps={{ maxLength: 15 }}
+              sx={{
+   
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: '#6200EA',
+                },
+                '& .MuiInputBase-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#6200EA',
+                },
+              }}
+              
+           
             />
             <TextField
               label="Amount"
@@ -353,12 +425,21 @@ const Dash = () => {
                   e.preventDefault();
                 }
               }}
-            style={{ width: '100%' }}
+            style={{ width: '100%'}}
             inputProps={{ maxLength: 9 }} // Limit to 9 characters
+            sx={{
+   
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: '#6200EA',
+              },
+              '& .MuiInputBase-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#6200EA',
+              },
+            }}
           />
         </DialogContent>
         <DialogActions>
-          <Button
+          <Button style={{color:'#6200EA'}}
             onClick={() =>
               handleAddPayableInDialog(
                 payableName,
@@ -376,7 +457,7 @@ const Dash = () => {
           >
             Add
           </Button>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button style={{color:'#6200EA'}} onClick={handleCloseDialog}>Cancel</Button>
         </DialogActions>
       </Dialog>
 
@@ -395,8 +476,8 @@ const Dash = () => {
   <DialogTitle style={{ fontWeight: 'bold' }}>About</DialogTitle>
   <DialogContent>
     <div className='dialog-about'>
-    <p><b>Version 1.0
-    <br/>Version Date: 2.8.24</b>
+    <p><b>Version 1.2
+    <br/>Version Date: 2.15.24</b>
     <br/><br/><b>Spendify</b> is currently optimized for mobile web use only. You can still access Spendify via Desktop or Tablet, but the user experience wouldn't be as pleasing. For updates, kindly follow the developer on 
     <a href="https://www.facebook.com/DenmarkJudilla.Main/" target="_blank" rel="noopener noreferrer"> Facebook</a> and 
     <a href="https://www.instagram.com/denmarkjkl/?hl=en" target="_blank" rel="noopener noreferrer"> Instagram.</a>

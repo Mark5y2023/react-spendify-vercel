@@ -4,6 +4,7 @@ import Home from './Home';
 import Dash from './Dash';
 import SplashScreen from './SplashScreen'; // Import the SplashScreen component
 
+
 function App() {
   const [loading, setLoading] = useState(true);
 

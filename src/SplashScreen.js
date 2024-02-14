@@ -9,7 +9,7 @@ const SplashScreen = () => {
   return (
     <div className="splash-screen">
     
-          <AppIcon style={{ fontSize: 30, color: 'blue', alignContent:'center', alignItems:'center  ' }} /><strong style={{marginLeft:'10px'}}>Spendify</strong>
+          <AppIcon style={{ fontSize: 30,  alignContent:'center', alignItems:'center  ' }} /><strong style={{marginLeft:'10px'}}>Spendify</strong>
               
       {/* Additional content goes here */}
     </div>

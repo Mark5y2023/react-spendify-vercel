@@ -5,16 +5,12 @@
   align-items: center;
   margin: 5px;
   padding: 10px;
+  color: #424242;
+  background-color: #FAFAFA;
+  
 }
 
-.fixed-section {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 
-}
 
 .fixed-section2 {
   position: sticky;
@@ -24,8 +20,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 100;
-  background-color: white;
+  z-index: 1;
+  background-color: #FAFAFA;
+ 
 }
 
 .header {
@@ -34,6 +31,7 @@
   align-items: center;
   width: 100%;
   align-content: center;
+  color: #651FFF;
 }
 
 .header2 {
@@ -54,62 +52,70 @@
   width: 100%;
   align-content: center;
   border-bottom: 2px solid rgb(122, 122, 122); /* Add gray border below each item */
-  position: sticky;
+
   top: 0;
+
 
  
 }
 
 .buttons {
   display: flex;
+  background-color: #6200EA;
   
  
 
 }
 
-.last-payment {
+.card-holder {
   font-size: medium;
   font-weight: bold;
   width: 100%;
   margin: -10px ;
-  color: rgb(70, 70, 70);
+  
+ 
+
 }
+
 
 .payables-list {
   overflow-y: auto;
   width: 100%;
-  margin-top: 10px;
+  margin-top: 5px;
  
- 
-}
+
+ }
 
 .payable-item {
-  margin-bottom: 10px;
   transition: transform 0.2s, color 0.2s;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid rgb(193, 193, 193);
-  color: rgb(70, 70, 70);
   height: fit-content;
+  padding-bottom: 5px;
 
 }
 
 .payable-item:hover {
   transform: scale(1.1);
-  color: grey;
+  
 }
 
 .payable-item.dragging {
-  background-color: rgba(0, 0, 255, 0.103);
+  background-color: #EDE7F6;
   border-radius: 5px;
   padding: 7px;
+  color: #311B92;
   
 }
 
 .payable-buttons button {
   margin-left: 5px;
+ border-radius: 50px;
 }
+
+
 
 /* ... (your existing CSS) */
 
@@ -137,3 +143,17 @@
  font-size: small;
 
 }
+
+@keyframes breathing {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.breathing-container {
+  animation: breathing 3s infinite;
+}
+

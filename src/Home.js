@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, TextField, Snackbar, Alert } from '@mui/material';
+import { Button, TextField, Snackbar, Alert, Card, CardContent } from '@mui/material';
 import './Home.css';
 import ClearIcon from '@mui/icons-material/Clear';
 import AppIcon from '@mui/icons-material/FlutterDash';
 import { getPaymentStatus } from './paymentUtils';
 
-/*Version update 2.8.24*/
 
 export const handleAddPayableInDialog = (
   payableName,
@@ -160,39 +159,78 @@ const Home = () => {
       <div className="fixed-section">
         <div className="header">
        
-        <p style={{alignItems:'center', display:'flex', alignContent:'center'}}> <AppIcon style={{ fontSize: 30, color: 'blue'}} /><strong>Spendify</strong></p>
+        <p style={{alignItems:'center', display:'flex', alignContent:'center'}}> <AppIcon style={{ fontSize: 30}} /><strong>Spendify</strong></p>
         
         </div>
+        <Card style={{borderRadius:'20px' , boxShadow:'1px 2px 9px #E0E0E0', width:'100%' , backgroundColor:'#ffffff'}}>
+          <CardContent>
         <div className="input-section">
-          <label>Username:</label>
-          <TextField
-            variant="outlined"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            inputProps={{ maxLength: maxUsernameLength }}
-          />
+
+
+<TextField
+style={{marginTop:'5px'}}
+              label="Username"
+              variant="outlined"
+              margin="normal"
+              value={username}
+  onChange={(e) => setUsername(e.target.value)}
+  inputProps={{
+    maxLength: maxUsernameLength,
+    style: { height: '10px' }, // Adjust the height as needed
+  }}
+  sx={{
+    fontSize: '8px', 
+    '& .MuiInputLabel-root.Mui-focused': {
+      color: '#6200EA',
+    },
+    '& .MuiInputBase-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: '#6200EA',
+    },
+  }}
+          
+              />
+
+
           <Button
             variant="contained"
             onClick={saveUsername}
-            style={{ marginTop: '10px' }}
+            style={{ borderRadius:'50px' }}
             color="primary"
             disabled={isUsernameEmpty}
+            className={isUsernameEmpty ? 'inactive' : 'active'}
           >
             Save
           </Button>
+      
         </div>
-
+     
         <div className="input-section">
-          <label>Biller:</label>
-          <TextField
+     
+          <TextField style={{marginTop:'10px'}}
             variant="outlined"
+            label="Biller"
             value={payableName}
             onChange={(e) => setPayableName(e.target.value)}
-            inputProps={{ maxLength: maxPayableNameLength }}
+            inputProps={{
+              maxLength: maxPayableNameLength,
+              style: { height: '10px' }, // Adjust the height as needed
+            }}
+            sx={{
+              fontSize: '8px', 
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: '#6200EA',
+              },
+              '& .MuiInputBase-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: '#6200EA',
+              },
+            }}
           />
-          <label style={{ marginTop: '5px' }}>Amount:</label>
-          <TextField
+
+          
+
+          <TextField style={{marginTop:'10px'}}
           variant="outlined"
+          label="Amount"
           value={payableAmount}
           onChange={handlePayableAmountChange}
           onKeyPress={(e) => {
@@ -201,26 +239,43 @@ const Home = () => {
               e.preventDefault();
             }
           }}
-          inputProps={{ maxLength: maxPayableAmountLength }}
+          inputProps={{
+            maxLength: maxPayableAmountLength,
+            style: { height: '10px' }, // Adjust the height as needed
+          }}
+          sx={{
+            fontSize: '8px', 
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: '#6200EA',
+            },
+            '& .MuiInputBase-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: '#6200EA',
+            },
+          }}
         />
           <Button
+          
             variant="contained"
             onClick={savePayable}
-            style={{ marginTop: '10px' }}
+            style={{ marginTop: '10px',borderRadius:'50px'}}
             color="primary"
             disabled={isPayableEmpty}
+            className={isPayableEmpty ? 'inactive' : 'active'}
           >
             Add
           </Button>
         </div>
+        </CardContent>
+        </Card>
 
         <Button
-          className="next-button"
-          style={{ marginTop: '10px' }}
+         
+          style={{ marginTop: '20px',alignSelf:'flex-end' ,borderRadius:'50px', marginRight:'1px'}}
           onClick={() => navigate('/dashboard')}
           variant="contained"
           color="primary"
           disabled={isLocalStorageEmpty}
+          className={isLocalStorageEmpty ? 'inactive' : 'active'}
         >
           Next
         </Button>
@@ -231,10 +286,10 @@ const Home = () => {
 
       <div className="scrollable-section">
         {payables.map((p, index) => (
-          <div key={index} className="payable-item">
+          <div key={index} className="payable-item1"  >
             <div>
               <p style={{ fontWeight: 'bold', fontSize: 'medium' }}>
-                {p.name} | ₱ {p.amount}
+                {p.name} <br/> {p.amount}
               </p>
             </div>
             <Button
