@@ -290,7 +290,9 @@ style={{marginTop:'5px'}}
           <div key={index} className="payable-item1"  >
             <div>
               <p style={{ fontWeight: 'bold', fontSize: 'medium' }}>
-                {p.name} <br/> {p.amount}
+                {p.name} </p>
+                <p style={{ fontWeight: 'normal', fontSize: 'medium', marginTop:"-10px" }}>
+                {p.amount}
               </p>
             </div>
             <Button
