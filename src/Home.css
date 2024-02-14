@@ -17,7 +17,7 @@
   width: 100%;
  
   align-items: center;
-  background-color: #fff; /* Set a background color if needed */
+ 
   z-index: 1; /* Ensure it's above the scrollable section */
 }
 

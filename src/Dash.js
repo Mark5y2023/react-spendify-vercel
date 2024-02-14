@@ -249,7 +249,7 @@ const Dash = () => {
        
           fontSize: '15px',
      
-       marginRight:'30px',
+       marginRight:'20px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-end',

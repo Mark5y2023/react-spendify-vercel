@@ -80,8 +80,9 @@ const Home = () => {
     const savedUsername = localStorage.getItem('username') || '';
     const savedPayables = JSON.parse(localStorage.getItem('payables')) || [];
 
-    if (savedUsername || savedPayables.length > 0) {
-      navigate('/dashboard');
+    if (!savedUsername || savedPayables.length === 0) {
+      // If either username or payables is missing, navigate to Home.js
+      navigate('/');
     } else {
       setUsername(savedUsername);
       setPayables(savedPayables);
