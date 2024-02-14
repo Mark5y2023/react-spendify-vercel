@@ -47,6 +47,25 @@ const Dash = () => {
   const [payableAmount, setPayableAmount] = useState('');
   const [isDialogOpen2, setDialogOpen2] = useState(false);
 
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      const savedUsername = localStorage.getItem('username');
+
+      if (!savedUsername) {
+        event.preventDefault();
+        navigate('/dashboard');
+        return "Kindly reset the app for you to go back to set up page.";
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [navigate]);
+
+
 
   useEffect(() => {
     const savedUsername = localStorage.getItem('username') || '';
