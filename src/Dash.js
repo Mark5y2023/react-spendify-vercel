@@ -1,22 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Button,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Snackbar,
-  Alert,
-  TextField,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Card,
-  CardContent,
-} from '@mui/material';
+import {Button,Drawer,IconButton,List,ListItem,ListItemIcon,ListItemText,Snackbar,Alert,TextField,Dialog,DialogTitle,DialogContent,DialogActions,Card,CardContent} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
@@ -78,8 +61,7 @@ const Dash = () => {
 
     setPayables(updatedPayables);
     localStorage.setItem('payables', JSON.stringify(updatedPayables));
-  };
-
+  };  
 
   const handlePay = (index) => {
     const updatedPayables = [...payables];
@@ -166,6 +148,7 @@ const Dash = () => {
   };
   
 
+
   const handleAdd = () => {
     setDialogOpen(true);
     setDrawerOpen(false);
@@ -199,6 +182,24 @@ const Dash = () => {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     return days[date.getDay()];
   };
+
+ 
+
+  const allPaid = payables.every(payable => {
+    const paymentStatus = getPaymentStatus(payable.amount, payable.originalAmount);
+    return paymentStatus === 'Paid';
+  });
+  
+  const totalUnpaidAmount = payables
+    .filter(payable => {
+      const paymentStatus = getPaymentStatus(payable.amount, payable.originalAmount);
+      return paymentStatus === 'Unpaid' || paymentStatus === 'Half Paid';
+    })
+    .reduce((sum, payable) => sum + payable.amount, 0);
+  
+  const totalUnpaidText = allPaid ? 'You Are All Set!' : `Unpaid: ₱ ${totalUnpaidAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+  
+  
   return (
     <div className="dashboard-container">
       <div className="fixed-section2">
@@ -275,8 +276,9 @@ const Dash = () => {
 
       <div className="user-section">
       <p style={{ fontSize: 'large', fontWeight: 'bold' }}>Billers List</p>
-          
-      
+      <p style={{ fontSize: 'medium', fontWeight: 'bold', color: '#651FFF' }}>
+  {totalUnpaidText}
+</p>
       </div>
       </div>
       
@@ -308,17 +310,22 @@ const Dash = () => {
                               fontWeight: 'bold',
                               fontSize: 'medium',
                               margin: '0',
-                              color: p.amount !== p.originalAmount ? '#f50057' : '',
+                              color: p.amount !== p.originalAmount ? '' : '',
                             }}
                           >
                             {`${p.name}`}
                           </p>
-                          <p style={{ fontSize: 'small', margin: '0' }}>{`₱ ${p.amount}`}</p>
+                          <p style={{ fontSize: 'medium', margin: '0' }}>{`₱ ${p.amount}`}</p>
                           <p
+                          className='status'
                             style={{
-                              fontSize: 'small',
                               margin: '0',
-                              color: p.amount !== p.originalAmount ? '#f50057' : '',
+                              color: p.amount !== p.originalAmount ? '' : '',
+                              backgroundColor:
+            p.colorFormatStatus === 'Unpaid' ? '#F50057' :
+            p.colorFormatStatus === 'Half Paid' ? '#FF9100' :
+            p.colorFormatStatus === 'Paid' ? '#00E676': '', // Default color
+       
                             }}
                           >
                             {p.colorFormatStatus}
