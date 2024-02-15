@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Button,Drawer,IconButton,List,ListItem,ListItemIcon,ListItemText,Snackbar,Alert,TextField,Dialog,DialogTitle,DialogContent,DialogActions,Card,CardContent} from '@mui/material';
+import {Button,Drawer,IconButton,List,ListItem,ListItemIcon,ListItemText,Snackbar,Alert,TextField,Dialog,DialogTitle,DialogContent,DialogActions,Card,CardContent,FormControl, RadioGroup, FormControlLabel, Radio} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ClearIcon from '@mui/icons-material/Clear';
 import AddIcon from '@mui/icons-material/Add';
@@ -12,6 +12,7 @@ import AppIcon from '@mui/icons-material/FlutterDash';
 import { getPaymentStatus } from './paymentUtils';
 import InfoIcon from '@mui/icons-material/Info';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 
 
@@ -29,6 +30,8 @@ const Dash = () => {
   const [payableName, setPayableName] = useState('');
   const [payableAmount, setPayableAmount] = useState('');
   const [isDialogOpen2, setDialogOpen2] = useState(false);
+  const [paymentOption, setPaymentOption] = useState('');
+  const [isDialogOpen3, setDialogOpen3] = useState(false);
 
 
   useEffect(() => {
@@ -40,6 +43,11 @@ const Dash = () => {
       ...p,
       colorFormatStatus: getPaymentStatus(p.amount, p.originalAmount),
     }));
+
+    const savedSelectedPaymentOption = localStorage.getItem('selectedPaymentOption');
+    if (savedSelectedPaymentOption) {
+      setPaymentOption(savedSelectedPaymentOption);
+    };
 
     setUsername(savedUsername);
     setPayables(updatedPayables);
@@ -67,30 +75,45 @@ const Dash = () => {
     const updatedPayables = [...payables];
     const currentAmount = updatedPayables[index].amount;
     const originalAmount = updatedPayables[index].originalAmount;
-
-    if (currentAmount === originalAmount) {
-      updatedPayables[index].amount = originalAmount / 2;
-    } else if (currentAmount === originalAmount / 2) {
+  
+    if (paymentOption === 'one-time') {
+      // One Time Payment logic: Change the amount to 0 right away
       updatedPayables[index].amount = 0;
+      updatedPayables[index].colorFormatStatus = getPaymentStatus(
+        updatedPayables[index].amount,
+        updatedPayables[index].originalAmount
+      );
+  
+    } else if (paymentOption === 'twice-paid') {
+      // Twice Paid logic: Call the current handlePay function
+      if (currentAmount === originalAmount) {
+        updatedPayables[index].amount = originalAmount / 2;
+      } else if (currentAmount === originalAmount / 2) {
+        updatedPayables[index].amount = 0;
+      }
+  
+      updatedPayables[index].clickCount = (updatedPayables[index].clickCount || 0) + 1;
+      updatedPayables[index].colorFormatStatus = getPaymentStatus(
+        updatedPayables[index].amount,
+        updatedPayables[index].originalAmount
+      );
+  
+      handleSnackbarOpen(`Payment processed successfully!`);
+      setSnackbarSeverity('success');
     }
-
-    updatedPayables[index].clickCount = (updatedPayables[index].clickCount || 0) + 1;
-    updatedPayables[index].colorFormatStatus = getPaymentStatus(
-      updatedPayables[index].amount,
-      updatedPayables[index].originalAmount
-    );
-
+  
     setPayables(updatedPayables);
-
+  
     const currentDate = new Date();
     const formattedDate = `${getDayName(currentDate)}, ${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
     setLastClickedDate(formattedDate);
     localStorage.setItem('payables', JSON.stringify(updatedPayables));
     localStorage.setItem('lastClickedDate', formattedDate);
-    handleSnackbarOpen(`Payment processed successfully!`);
-    setSnackbarSeverity('success');
+  
+    // Close the dialog after payment processing
+    setDialogOpen3(false);
   };
-
+  
   const totalOriginalAmount = payables.reduce((sum, payable) => sum + payable.originalAmount, 0);
 
 
@@ -199,6 +222,14 @@ const Dash = () => {
   
   const totalUnpaidText = allPaid ? 'You Are All Set!' : `Unpaid: ₱ ${totalUnpaidAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
   
+  const handlePaymentOptionChange = (event) => {
+    setDialogOpen3(true);
+    const selectedPaymentOption = event.target.value;
+    setPaymentOption(selectedPaymentOption);
+    localStorage.setItem('selectedPaymentOption', selectedPaymentOption);
+  };
+
+  
   
   return (
     <div className="dashboard-container">
@@ -265,6 +296,13 @@ const Dash = () => {
         <AddIcon style={{ fontSize: 18,marginBottom:'3px'}} />
         Add
       </Button>
+
+      <IconButton
+          onClick={() => setDialogOpen3(true)}
+          style={{ border: 'none', background: 'none', marginLeft: 'auto' }}
+        >
+          <SettingsIcon />
+        </IconButton>
     </div>
   </div>
 </div>
@@ -483,8 +521,8 @@ const Dash = () => {
   <DialogTitle style={{ fontWeight: 'bold' }}>About</DialogTitle>
   <DialogContent>
     <div className='dialog-about'>
-    <p><b>Version 1.2
-    <br/>Version Date: 2.15.24</b>
+    <p><b>Version 1.3
+    <br/>Version Date: 2.16.24</b>
     <br/><br/><b>Spendify</b> is currently optimized for mobile web use only. You can still access Spendify via Desktop or Tablet, but the user experience wouldn't be as pleasing. For updates, kindly follow the developer on 
     <a href="https://www.facebook.com/DenmarkJudilla.Main/" target="_blank" rel="noopener noreferrer"> Facebook</a> and 
     <a href="https://www.instagram.com/denmarkjkl/?hl=en" target="_blank" rel="noopener noreferrer"> Instagram.</a>
@@ -497,8 +535,47 @@ const Dash = () => {
   </DialogActions>
 </Dialog>
 
+
+<Dialog open={isDialogOpen3} onClose={() => setDialogOpen3(false)}>
+  <DialogTitle style={{ fontWeight: 'bold' }}>Payment Options</DialogTitle>
+  <DialogContent>
+    <div>
+      <FormControl component="fieldset">
+        <RadioGroup
+          aria-label="payment-options"
+          name="payment-options"
+          value={paymentOption}
+          onChange={handlePaymentOptionChange}
+        >
+          <FormControlLabel
+            value="one-time"
+            control={<Radio checked={paymentOption === 'one-time'} style={{ color: '#6200EA' }} />}
+            label="One Time Payment"
+          />
+          <FormControlLabel
+            value="twice-paid"
+            control={<Radio checked={paymentOption === 'twice-paid'} style={{ color: '#6200EA' }} />}
+            label="Twice Paid"
+          />
+        </RadioGroup>
+      </FormControl>
     </div>
+  </DialogContent>
+  <DialogActions>
+    <Button style={{color:'#6200EA'}} onClick={() => setDialogOpen3(false)}>Close</Button>
+  </DialogActions>
+</Dialog>
+
+
+
+
+    </div>
+
+
+    
   );
+
+  
 };
 
 export default Dash;
