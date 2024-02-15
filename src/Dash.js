@@ -25,6 +25,8 @@ const Dash = () => {
   const [payableAmount, setPayableAmount] = useState('');
   const [isDialogOpen2, setDialogOpen2] = useState(false);
   const [paymentOption, setPaymentOption] = useState('');
+  const [scrollDirection, setScrollDirection] = useState('down');
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const savedUsername = localStorage.getItem('username') || '';
@@ -219,10 +221,33 @@ const Dash = () => {
     setPaymentOption(selectedPaymentOption);
     localStorage.setItem('selectedPaymentOption', selectedPaymentOption);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY === 0) {
+        setScrollDirection('up');
+      } else if (currentScrollY > lastScrollY) {
+        setScrollDirection('down');
+      } else {
+        setScrollDirection('up');
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollY]);
+
   
   return (
-    <div className="dashboard-container">
-      <div className="fixed-section2">
+    <div className={`dashboard-container ${scrollDirection === 'down' ? 'scrolling-down' : ''}`}>
+      <div className={`fixed-section2 ${scrollDirection === 'down' ? 'fade-out' : ''}`}>
       
         <div className="header">
         <p style={{alignItems:'center', display:'flex', alignContent:'center'}}> <AppIcon style={{ fontSize: 30, color: '#651FFF'}} /><strong>Spendify</strong></p>
