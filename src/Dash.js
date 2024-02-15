@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {Button,Drawer,IconButton,List,ListItem,ListItemIcon,ListItemText,Snackbar,Alert,TextField,Dialog,DialogTitle,DialogContent,DialogActions,Card,CardContent,FormControl, RadioGroup, FormControlLabel, Radio} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ClearIcon from '@mui/icons-material/Clear';
-import AddIcon from '@mui/icons-material/Add';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useNavigate } from 'react-router-dom';
 import './Dash.css';
@@ -12,10 +10,6 @@ import AppIcon from '@mui/icons-material/FlutterDash';
 import { getPaymentStatus } from './paymentUtils';
 import InfoIcon from '@mui/icons-material/Info';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import SettingsIcon from '@mui/icons-material/Settings';
-
-
-
 
 const Dash = () => {
   const [username, setUsername] = useState('');
@@ -31,8 +25,6 @@ const Dash = () => {
   const [payableAmount, setPayableAmount] = useState('');
   const [isDialogOpen2, setDialogOpen2] = useState(false);
   const [paymentOption, setPaymentOption] = useState('');
-  const [isDialogOpen3, setDialogOpen3] = useState(false);
-
 
   useEffect(() => {
     const savedUsername = localStorage.getItem('username') || '';
@@ -110,7 +102,7 @@ const Dash = () => {
     localStorage.setItem('lastClickedDate', formattedDate);
   
     // Close the dialog after payment processing
-    setDialogOpen3(false);
+   
   };
   
   const totalOriginalAmount = payables.reduce((sum, payable) => sum + payable.originalAmount, 0);
@@ -222,13 +214,11 @@ const Dash = () => {
   const totalUnpaidText = allPaid ? 'You Are All Set!' : `Unpaid: ₱ ${totalUnpaidAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
   
   const handlePaymentOptionChange = (event) => {
-    setDialogOpen3(true);
+
     const selectedPaymentOption = event.target.value;
     setPaymentOption(selectedPaymentOption);
     localStorage.setItem('selectedPaymentOption', selectedPaymentOption);
   };
-
-  
   
   return (
     <div className="dashboard-container">
@@ -252,15 +242,30 @@ const Dash = () => {
   </div>
   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginTop:'10px' }}>
     <div style={{
-      backgroundColor: '#651FFF',
-      borderRadius: '20px',
       width: 'fit-content',
-      boxShadow: '1px 2px 9px #E0E0E0',
-      animation: 'breathing 3s infinite',
+   
     }}>
       <p style={{
         marginBottom: '-5px',
         fontSize: 'large',
+        fontWeight: 'bold',
+        color: '#6200EA',
+        alignItems: 'center',
+        alignContent: 'center',
+        justifyContent: 'center',
+       
+        margin: 0,
+      }}>
+        {`Total: ₱ ${totalOriginalAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`}
+      </p>
+    </div>
+    <div style={{ display: 'flex', alignItems: 'center', backgroundColor:'#6200EA' ,   borderRadius: '20px',
+      width: 'fit-content',
+      boxShadow: '1px 2px 9px #E0E0E0',
+      animation: 'breathing 3s infinite'}}>
+     
+    <p style={{  marginBottom: '-5px',
+        fontSize: 'medium',
         fontWeight: 'bold',
         padding: '8px',
         color: 'white',
@@ -268,40 +273,9 @@ const Dash = () => {
         alignContent: 'center',
         justifyContent: 'center',
         width: '90%',
-        margin: 0,
-      }}>
-        {`Total: ₱ ${totalOriginalAmount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`}
-      </p>
-    </div>
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Button
-     variant='outlined'
-        style={{
-       
-          fontSize: '15px',
-     
-       marginRight:'15px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-         borderColor:'#616161',
-          borderRadius: '15px',
-          color:'#616161',
-        
-        
-        }}
-        onClick={handleAdd}
-      >
-        <AddIcon style={{ fontSize: 18,marginBottom:'3px'}} />
-        Add
-      </Button>
-
-      <IconButton
-          onClick={() => setDialogOpen3(true)}
-          style={{ border: 'none', background: 'none', marginLeft: 'auto' }}
-        >
-          <SettingsIcon />
-        </IconButton>
+        margin: 0,}}>
+  {totalUnpaidText}
+</p>
     </div>
   </div>
 </div>
@@ -309,13 +283,48 @@ const Dash = () => {
      
     </CardContent>
     </Card>
-  
+    <Card style={{ borderRadius: '20px', boxShadow: '1px 2px 9px #E0E0E0', width: '100%', marginTop: '10px', backgroundColor: '#ffffff'}}>
+  <CardContent>
+    <div className="button-container">
+      <Button style={{ borderRadius: '10px', boxShadow: '1px 2px 9px #E0E0E0', backgroundColor: '#6200EA', color: '#ffffff', flexDirection: "column", alignItems: 'flex-end' }} onClick={() => handleAdd()}>
+        <div style={{ fontSize: 'xx-small' }}><br /><br /> <br /><br />Add </div> <div style={{ fontSize: 'small', fontWeight: 'bold' }}>Biller </div>
+      </Button>
+
+      <Button style={{ borderRadius: '10px', marginLeft: '5px', boxShadow: '1px 2px 9px #E0E0E0', backgroundColor: '#6200EA', color: '#ffffff', flexDirection: "column", alignItems: 'flex-end' }} onClick={() => handleNewMonth()}>
+        <div style={{ fontSize: 'xx-small' }} ><br /><br /> <br /><br />New </div> <div style={{ fontSize: 'small', fontWeight: 'bold' }}>Month </div>
+      </Button>
+
+      <div style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column'}}>
+        <p style={{ fontSize: 'small', fontWeight: 'bold', color: '#6200EA' }}>Payment Options</p>
+        <FormControl component="fieldset" width="100%">
+          <RadioGroup
+            aria-label="payment-options"
+            name="payment-options"
+            value={paymentOption}
+            onChange={handlePaymentOptionChange}
+          >
+            <FormControlLabel
+              value="one-time"
+              control={<Radio checked={paymentOption === 'one-time'} style={{ color: '#6200EA' }} />}
+              label={<span style={{ fontSize: 'small' }}>One Time Payment</span>}
+            
+            />
+            <FormControlLabel
+              value="twice-paid"
+              control={<Radio checked={paymentOption === 'twice-paid'} style={{ color: '#6200EA' }} />}
+              label={<span style={{ fontSize: 'small' }}>Twice Paid</span>}
+            />
+          </RadioGroup>
+        </FormControl>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
 
       <div className="user-section">
       <p style={{ fontSize: 'large', fontWeight: 'bold' }}>Billers List</p>
-      <p style={{ fontSize: 'medium', fontWeight: 'bold', color: '#651FFF' }}>
-  {totalUnpaidText}
-</p>
+      
       </div>
       </div>
       
@@ -411,13 +420,6 @@ const Dash = () => {
         }}
       >
         <List>
-          
-          <ListItem button onClick={handleNewMonth}>
-            <ListItemIcon>
-              <CalendarTodayIcon />
-            </ListItemIcon>
-            <ListItemText style={{ marginLeft: '-10px' }} primary="New Month" />
-          </ListItem>
           <ListItem button onClick={handleReset}>
             <ListItemIcon>
               <RefreshIcon />
@@ -533,38 +535,6 @@ const Dash = () => {
     <Button onClick={() => setDialogOpen2(false)}>Okay</Button>
   </DialogActions>
 </Dialog>
-
-
-<Dialog open={isDialogOpen3} onClose={() => setDialogOpen3(false)}>
-  <DialogTitle style={{ fontWeight: 'bold' }}>Payment Options</DialogTitle>
-  <DialogContent>
-    <div>
-      <FormControl component="fieldset">
-        <RadioGroup
-          aria-label="payment-options"
-          name="payment-options"
-          value={paymentOption}
-          onChange={handlePaymentOptionChange}
-        >
-          <FormControlLabel
-            value="one-time"
-            control={<Radio checked={paymentOption === 'one-time'} style={{ color: '#6200EA' }} />}
-            label="One Time Payment"
-          />
-          <FormControlLabel
-            value="twice-paid"
-            control={<Radio checked={paymentOption === 'twice-paid'} style={{ color: '#6200EA' }} />}
-            label="Twice Paid"
-          />
-        </RadioGroup>
-      </FormControl>
-    </div>
-  </DialogContent>
-  <DialogActions>
-    <Button style={{color:'#6200EA'}} onClick={() => setDialogOpen3(false)}>Close</Button>
-  </DialogActions>
-</Dialog>
-
 
 
 
