@@ -84,7 +84,7 @@ const Dash = () => {
         updatedPayables[index].originalAmount
       );
   
-    } else if (paymentOption === 'twice-paid') {
+      } else if (paymentOption === 'twice-paid') {
       // Twice Paid logic: Call the current handlePay function
       if (currentAmount === originalAmount) {
         updatedPayables[index].amount = originalAmount / 2;
@@ -98,10 +98,12 @@ const Dash = () => {
         updatedPayables[index].originalAmount
       );
   
-      handleSnackbarOpen(`Payment processed successfully!`);
-      setSnackbarSeverity('success');
+    
     }
   
+    handleSnackbarOpen(`Payment processed successfully!`);
+    setSnackbarSeverity('success');
+
     setPayables(updatedPayables);
   
     const currentDate = new Date();
