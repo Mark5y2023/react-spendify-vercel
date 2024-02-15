@@ -79,10 +79,7 @@ const Dash = () => {
     if (paymentOption === 'one-time') {
       // One Time Payment logic: Change the amount to 0 right away
       updatedPayables[index].amount = 0;
-      updatedPayables[index].colorFormatStatus = getPaymentStatus(
-        updatedPayables[index].amount,
-        updatedPayables[index].originalAmount
-      );
+   
   
       } else if (paymentOption === 'twice-paid') {
       // Twice Paid logic: Call the current handlePay function
@@ -91,15 +88,15 @@ const Dash = () => {
       } else if (currentAmount === originalAmount / 2) {
         updatedPayables[index].amount = 0;
       }
-  
-      updatedPayables[index].clickCount = (updatedPayables[index].clickCount || 0) + 1;
-      updatedPayables[index].colorFormatStatus = getPaymentStatus(
-        updatedPayables[index].amount,
-        updatedPayables[index].originalAmount
-      );
-  
     
     }
+
+  
+    updatedPayables[index].colorFormatStatus = getPaymentStatus(
+      updatedPayables[index].amount,
+      updatedPayables[index].originalAmount
+    );
+
   
     handleSnackbarOpen(`Payment processed successfully!`);
     setSnackbarSeverity('success');
