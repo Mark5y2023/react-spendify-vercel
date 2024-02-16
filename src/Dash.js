@@ -392,8 +392,7 @@ const Dash = () => {
       <p style={{ fontSize: 'large', fontWeight: 'bold' }}>Billers List</p>
      
       <IconButton onClick={handleToggleContainer} 
-  style={{ marginLeft: 'auto' , 
-  animation: 'breathing 3s infinite'}}
+  style={{ marginLeft: 'auto'}}
 >
   {isSwipeUp ? <SwipeUpIcon /> : <SwipeDownIcon />}
 </IconButton>

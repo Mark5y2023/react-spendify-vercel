@@ -197,7 +197,7 @@
   }
   
   .card-holder.hide {
-    animation: scrollDown 0.5s ease-in-out;
+    animation: scrollDown 0.3s ease-in-out;
   }
   
   
