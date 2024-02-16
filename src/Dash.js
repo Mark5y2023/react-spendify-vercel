@@ -264,7 +264,7 @@ const Dash = () => {
       setTimeout(() => {
         cardHolder.classList.remove('hide');
         btnHolder.classList.remove('hide');
-      }, 400); // Adjust the timeout based on your animation duration (in milliseconds)
+      }, 800); // Adjust the timeout based on your animation duration (in milliseconds)
     }
   };
   
