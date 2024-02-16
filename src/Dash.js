@@ -334,19 +334,19 @@ const Dash = () => {
       {/* First Div - Add and New Month Buttons */}
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
         <Button 
-          style={{ borderRadius: '10px', boxShadow: '1px 2px 9px #E0E0E0', backgroundColor: '#6200EA', color: '#ffffff' }} 
+          style={{ borderRadius: '10px', height:'100%' , boxShadow: '1px 2px 9px #E0E0E0', backgroundColor: '#6200EA', color: '#ffffff' }} 
           onClick={() => handleAdd()}
         >
           < AddIcon />
-          <div style={{ fontSize: 'small', fontWeight: 'bold', marginRight:'5px' }}>Add Biller</div>
+          <div style={{ fontSize: 'x-small', fontWeight: 'bold', marginRight:'5px'}}>Add Biller</div>
         </Button>
 
         <Button 
-          style={{ borderRadius: '10px', marginTop: '5px', boxShadow: '1px 2px 9px #E0E0E0', backgroundColor: '#6200EA', color: '#ffffff'}} 
+          style={{ borderRadius: '10px', marginTop: '5px',height:'100%' ,boxShadow: '1px 2px 9px #E0E0E0', backgroundColor: '#6200EA', color: '#ffffff'}} 
           onClick={() => handleNewMonth()}
         >
           <CalendarTodayIcon />
-          <div style={{ fontSize: 'small', fontWeight: 'bold' , marginRight:'5px'  }}>New Month</div>
+          <div style={{ fontSize: 'x-small', fontWeight: 'bold' , marginRight:'5px'  }}>New Month</div>
         </Button>
       </div>
 
