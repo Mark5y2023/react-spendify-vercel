@@ -10,6 +10,12 @@ import AppIcon from '@mui/icons-material/FlutterDash';
 import { getPaymentStatus } from './paymentUtils';
 import InfoIcon from '@mui/icons-material/Info';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import AddIcon  from '@mui/icons-material/Add';
+import CalendarTodayIcon  from '@mui/icons-material/CalendarMonth';
+import SwipeUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import SwipeDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
+
 
 const Dash = () => {
   const [username, setUsername] = useState('');
@@ -25,8 +31,9 @@ const Dash = () => {
   const [payableAmount, setPayableAmount] = useState('');
   const [isDialogOpen2, setDialogOpen2] = useState(false);
   const [paymentOption, setPaymentOption] = useState('');
-  const [scrollDirection, setScrollDirection] = useState('down');
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isSwipeUp, setSwipeUp] = useState(true);
+
+
 
   useEffect(() => {
     const savedUsername = localStorage.getItem('username') || '';
@@ -222,32 +229,30 @@ const Dash = () => {
     localStorage.setItem('selectedPaymentOption', selectedPaymentOption);
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
 
-      if (currentScrollY === 0) {
-        setScrollDirection('up');
-      } else if (currentScrollY > lastScrollY) {
-        setScrollDirection('down');
-      } else {
-        setScrollDirection('up');
-      }
+  const handleToggleContainer = () => {
+    setSwipeUp(!isSwipeUp);
 
-      setLastScrollY(currentScrollY);
-    };
+    const cardHolder = document.querySelector('.card-holder');
 
-    window.addEventListener('scroll', handleScroll);
+    document.querySelector('.card-holder').style.display = isSwipeUp ? 'none' : 'flex';
+    
+    if (isSwipeUp) {
+      // If swipe up, add the hide class to trigger the animation
+      cardHolder.classList.add('hide');
+    } else {
+      // If swipe down, remove the hide class to show the card-holder
+     
+      cardHolder.classList.add('hide');
+    }
+    
+  };
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [lastScrollY]);
 
   
   return (
-    <div className={`dashboard-container ${scrollDirection === 'down' ? 'scrolling-down' : ''}`}>
-      <div className={`fixed-section2 ${scrollDirection === 'down' ? 'fade-out' : ''}`}>
+    <div className="dashboard-container">
+       <div className="fixed-section2">
       
         <div className="header">
         <p style={{alignItems:'center', display:'flex', alignContent:'center'}}> <AppIcon style={{ fontSize: 30, color: '#651FFF'}} /><strong>Spendify</strong></p>
@@ -257,10 +262,13 @@ const Dash = () => {
             <MenuIcon />
           </IconButton>
         </div>
-        <Card style={{borderRadius:'20px' , boxShadow:'1px 2px 9px #E0E0E0', width:'100%' , backgroundColor:'#ffffff'}}>
+    
+         
+          <div className="card-holder" style={{ display: 'flex', flexDirection: 'column'}}>
+
+          <Card style={{borderRadius:'20px' , boxShadow:'1px 2px 9px #E0E0E0', width:'100%' , backgroundColor:'#ffffff' }}>
           <CardContent>
 
-          <div className='card-holder' style={{ paddingLeft: "10px", display: 'flex', flexDirection: 'column' }}>
   <div>
     <p style={{ fontSize: 'large', fontWeight: 'bold', marginTop: '5px' }}>{`Hi, ${username}!`}</p>
     <p style={{ fontSize: 'medium', fontWeight: 'bold' }}>{`Last Payment: ${lastClickedDate}`}</p>
@@ -303,23 +311,47 @@ const Dash = () => {
 </p>
     </div>
   </div>
+  </CardContent>
+    </Card>
 </div>
       
      
-    </CardContent>
-    </Card>
-    <Card style={{ borderRadius: '20px', boxShadow: '1px 2px 9px #E0E0E0', width: '100%', marginTop: '10px', backgroundColor: '#ffffff'}}>
+   
+
+<Card className="button-container" style={{ borderRadius: '20px', boxShadow: '1px 2px 9px #E0E0E0', width: '100%', marginTop: '20px'}}>
   <CardContent>
-    <div className="button-container">
-      <Button style={{ borderRadius: '10px', boxShadow: '1px 2px 9px #E0E0E0', backgroundColor: '#6200EA', color: '#ffffff', flexDirection: "column", alignItems: 'flex-end' }} onClick={() => handleAdd()}>
-        <div style={{ fontSize: 'xx-small' }}><br /><br /> <br /><br />Add </div> <div style={{ fontSize: 'small', fontWeight: 'bold' }}>Biller </div>
-      </Button>
 
-      <Button style={{ borderRadius: '10px', marginLeft: '5px', boxShadow: '1px 2px 9px #E0E0E0', backgroundColor: '#6200EA', color: '#ffffff', flexDirection: "column", alignItems: 'flex-end' }} onClick={() => handleNewMonth()}>
-        <div style={{ fontSize: 'xx-small' }} ><br /><br /> <br /><br />New </div> <div style={{ fontSize: 'small', fontWeight: 'bold' }}>Month </div>
-      </Button>
+  <div 
+  style={{
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom:'-15px',
 
-      <div style={{ marginLeft: '10px', display: 'flex', flexDirection: 'column'}}>
+  }}
+>
+
+      {/* First Div - Add and New Month Buttons */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+        <Button 
+          style={{ borderRadius: '10px', boxShadow: '1px 2px 9px #E0E0E0', backgroundColor: '#6200EA', color: '#ffffff' }} 
+          onClick={() => handleAdd()}
+        >
+          < AddIcon />
+          <div style={{ fontSize: 'small', fontWeight: 'bold', marginRight:'5px' }}>Add Biller</div>
+        </Button>
+
+        <Button 
+          style={{ borderRadius: '10px', marginTop: '5px', boxShadow: '1px 2px 9px #E0E0E0', backgroundColor: '#6200EA', color: '#ffffff'}} 
+          onClick={() => handleNewMonth()}
+        >
+          <CalendarTodayIcon />
+          <div style={{ fontSize: 'small', fontWeight: 'bold' , marginRight:'5px'  }}>New Month</div>
+        </Button>
+      </div>
+
+      {/* Second Div - Payment Options */}
+      <div style={{marginLeft:'15px', display: 'flex', flexDirection: 'column', width: '100%' }}>
         <p style={{ fontSize: 'small', fontWeight: 'bold', color: '#6200EA' }}>Payment Options</p>
         <FormControl component="fieldset" width="100%">
           <RadioGroup
@@ -332,7 +364,6 @@ const Dash = () => {
               value="one-time"
               control={<Radio checked={paymentOption === 'one-time'} style={{ color: '#6200EA' }} />}
               label={<span style={{ fontSize: 'small' }}>One Time Payment</span>}
-            
             />
             <FormControlLabel
               value="twice-paid"
@@ -342,14 +373,26 @@ const Dash = () => {
           </RadioGroup>
         </FormControl>
       </div>
+      
+
+
     </div>
-  </CardContent>
+
+    </CardContent>
 </Card>
+
 
 
       <div className="user-section">
       <p style={{ fontSize: 'large', fontWeight: 'bold' }}>Billers List</p>
-      
+     
+      <IconButton onClick={handleToggleContainer} 
+  style={{ marginLeft: 'auto' , 
+  animation: 'breathing 3s infinite'}}
+>
+  {isSwipeUp ? <SwipeUpIcon /> : <SwipeDownIcon />}
+</IconButton>
+
       </div>
       </div>
       
@@ -375,33 +418,39 @@ const Dash = () => {
                             <ClearIcon style={{ color: 'grey' }} />
                           </IconButton>
                         </div>
-                        <div className="payable-texts">
-                          <p
-                            style={{
-                              fontWeight: 'bold',
-                              fontSize: 'medium',
-                              margin: '0',
-                              color: p.amount !== p.originalAmount ? '' : '',
-                            }}
-                          >
-                            {`${p.name}`}
-                          </p>
-                          <p style={{ fontSize: 'medium', margin: '0' }}>{`₱ ${p.amount}`}</p>
-                          <p
-                          className='status'
-                            style={{
-                              margin: '0',
-                              color: p.amount !== p.originalAmount ? '' : '',
-                              backgroundColor:
-            p.colorFormatStatus === 'Unpaid' ? '#F50057' :
-            p.colorFormatStatus === 'Half Paid' ? '#FF9100' :
-            p.colorFormatStatus === 'Paid' ? '#00E676': '', // Default color
-       
-                            }}
-                          >
-                            {p.colorFormatStatus}
-                          </p>
-                        </div>
+                          <div className="payable-texts">
+                            <p
+                              style={{
+                                fontWeight: 'bold',
+                                fontSize: 'medium',
+                                margin: '0',
+                                color: p.amount !== p.originalAmount ? '' : '',
+                              }}
+                            >
+                              {`${p.name}`}
+                            </p>
+                            <p style={{ fontSize: 'medium', margin: '0' }}>{`₱ ${p.amount}`}</p>
+                            {paymentOption === 'twice-paid' && (
+                      <p style={{ fontSize: 'small', margin: '0px',marginBottom:'1px', marginTop:'-3px',color:'#BDBDBD' }}>{`Half: ₱ ${(
+                        p.originalAmount / 2
+                      ).toLocaleString('en-US', { maximumFractionDigits: 0 })}`}</p>
+                    )}
+                    
+                            <p
+                            className='status'
+                              style={{
+                                margin: '0',
+                                color: p.amount !== p.originalAmount ? '' : '',
+                                backgroundColor:
+              p.colorFormatStatus === 'Unpaid' ? '#F50057' :
+              p.colorFormatStatus === 'Half Paid' ? '#FF9100' :
+              p.colorFormatStatus === 'Paid' ? '#00E676': '', // Default color
+        
+                              }}
+                            >
+                              {p.colorFormatStatus}
+                            </p>
+                          </div>
                         <div className="payable-buttons">
   <Button
     variant="contained"
@@ -547,8 +596,8 @@ const Dash = () => {
   <DialogTitle style={{ fontWeight: 'bold' }}>About</DialogTitle>
   <DialogContent>
     <div className='dialog-about'>
-    <p><b>Version 1.3
-    <br/>Version Date: 2.16.24</b>
+    <p><b>Version 1.4
+    <br/>Version Date: 2.17.24</b>
     <br/><br/><b>Spendify</b> is currently optimized for mobile web use only. You can still access Spendify via Desktop or Tablet, but the user experience wouldn't be as pleasing. For updates, kindly follow the developer on 
     <a href="https://www.facebook.com/DenmarkJudilla.Main/" target="_blank" rel="noopener noreferrer"> Facebook</a> and 
     <a href="https://www.instagram.com/denmarkjkl/?hl=en" target="_blank" rel="noopener noreferrer"> Instagram.</a>
