@@ -240,21 +240,34 @@ const Dash = () => {
   
     const cardHolder = document.querySelector('.card-holder');
     const buttonContainer = document.querySelector('.button-container');
+    const btnHolder = document.querySelector('.button-container');
   
     document.querySelector('.card-holder').style.display = isSwipeUp ? 'none' : 'flex';
   
     if (isSwipeUp) {
       // If swipe up, add the hide class to trigger the animation
       cardHolder.classList.add('hide');
-      buttonContainer.style.marginTop = '-10px'; // Reset margin when hiding
+      buttonContainer.style.marginTop = '-10px';
+      btnHolder.classList.add('hide');
+  
+      // Remove the hide class after the animation completes
+      setTimeout(() => {
+        cardHolder.classList.remove('hide');
+        btnHolder.classList.remove('hide');
+      }, 800); // Adjust the timeout based on your animation duration (in milliseconds)
     } else {
       // If swipe down, remove the hide class to show the card-holder
       cardHolder.classList.add('hide');
-      buttonContainer.style.marginTop = '0'; // Apply margin when showing
+      buttonContainer.style.marginTop = '0';
+  
+      // Remove the hide class after the animation completes
+      setTimeout(() => {
+        cardHolder.classList.remove('hide');
+        btnHolder.classList.remove('hide');
+      }, 400); // Adjust the timeout based on your animation duration (in milliseconds)
     }
   };
   
-
   
   return (
     <div className="dashboard-container">
