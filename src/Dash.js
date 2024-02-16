@@ -132,11 +132,16 @@ const Dash = () => {
   };
   
   const handleDelete = (index) => {
-    const updatedPayables = [...payables];
-    updatedPayables.splice(index, 1);
-    setPayables(updatedPayables);
-    localStorage.setItem('payables', JSON.stringify(updatedPayables));
+    const shouldDelete = window.confirm('Are you sure you want to delete this Biller?');
+  
+    if (shouldDelete) {
+      const updatedPayables = [...payables];
+      updatedPayables.splice(index, 1);
+      setPayables(updatedPayables);
+      localStorage.setItem('payables', JSON.stringify(updatedPayables));
+    }
   };
+  
 
   const handleReset = () => {
     setDrawerOpen(false);
@@ -326,7 +331,7 @@ const Dash = () => {
     display: 'flex',
     justifyContent: 'space-between',
     width: '100%',
-    marginBottom:'-15px',
+    marginBottom:'-5px',
 
   }}
 >
