@@ -338,7 +338,7 @@ const Dash = () => {
           onClick={() => handleAdd()}
         >
           < AddIcon />
-          <div style={{ fontSize: 'x-small', fontWeight: 'bold', marginRight:'5px'}}>Add Biller</div>
+          <div style={{ fontSize: 'small', fontWeight: 'bold', marginRight:'5px'}}>Add Biller</div>
         </Button>
 
         <Button 
@@ -346,13 +346,13 @@ const Dash = () => {
           onClick={() => handleNewMonth()}
         >
           <CalendarTodayIcon />
-          <div style={{ fontSize: 'x-small', fontWeight: 'bold' , marginRight:'5px'  }}>New Month</div>
+          <div style={{ fontSize: 'small', fontWeight: 'bold' , marginRight:'5px'  }}>New Month</div>
         </Button>
       </div>
 
       {/* Second Div - Payment Options */}
       <div style={{marginLeft:'15px', display: 'flex', flexDirection: 'column', width: '100%' }}>
-        <p style={{ fontSize: 'small', fontWeight: 'bold', color: '#6200EA' }}>Payment Options</p>
+        <p style={{ fontSize: 'medium', fontWeight: 'bold', color: '#6200EA' }}>Payment Options</p>
         <FormControl component="fieldset" width="100%">
           <RadioGroup
             aria-label="payment-options"
@@ -363,12 +363,12 @@ const Dash = () => {
             <FormControlLabel
               value="one-time"
               control={<Radio checked={paymentOption === 'one-time'} style={{ color: '#6200EA' }} />}
-              label={<span style={{ fontSize: 'small' }}>One Time Payment</span>}
+              label={<span style={{ fontSize: 'medium' }}>One Time Payment</span>}
             />
             <FormControlLabel
               value="twice-paid"
               control={<Radio checked={paymentOption === 'twice-paid'} style={{ color: '#6200EA' }} />}
-              label={<span style={{ fontSize: 'small' }}>Twice Paid</span>}
+              label={<span style={{ fontSize: 'medium' }}>Twice Paid</span>}
             />
           </RadioGroup>
         </FormControl>
