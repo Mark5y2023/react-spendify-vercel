@@ -237,22 +237,23 @@ const Dash = () => {
 
   const handleToggleContainer = () => {
     setSwipeUp(!isSwipeUp);
-
+  
     const cardHolder = document.querySelector('.card-holder');
-
+    const buttonContainer = document.querySelector('.button-container');
+  
     document.querySelector('.card-holder').style.display = isSwipeUp ? 'none' : 'flex';
-    
+  
     if (isSwipeUp) {
       // If swipe up, add the hide class to trigger the animation
       cardHolder.classList.add('hide');
+      buttonContainer.style.marginTop = '-10px'; // Reset margin when hiding
     } else {
       // If swipe down, remove the hide class to show the card-holder
-     
       cardHolder.classList.add('hide');
+      buttonContainer.style.marginTop = '0'; // Apply margin when showing
     }
-    
   };
-
+  
 
   
   return (
@@ -269,7 +270,7 @@ const Dash = () => {
         </div>
     
          
-          <div className="card-holder" style={{ display: 'flex', flexDirection: 'column'}}>
+          <div className="card-holder" style={{ display: 'flex', flexDirection: 'column', marginBottom:'10px'}}>
 
           <Card style={{borderRadius:'20px' , boxShadow:'1px 2px 9px #E0E0E0', width:'100%' , backgroundColor:'#ffffff' }}>
           <CardContent>
@@ -323,7 +324,7 @@ const Dash = () => {
      
    
 
-<Card className="button-container" style={{ borderRadius: '20px', boxShadow: '1px 2px 9px #E0E0E0', width: '100%', marginTop: '20px'}}>
+<Card className="button-container" style={{ borderRadius: '20px', boxShadow: '1px 2px 9px #E0E0E0', width: '100%'}}>
   <CardContent>
 
   <div 
